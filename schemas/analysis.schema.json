@@ -1,0 +1,653 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://example.invalid/repo-crux/analysis.schema.json",
+ "title": "repo-crux analysis",
+ "description": "Entry points, critical flows, cruxes, and 1-10 importance scores for every file and method of a repository.",
+ "type": "object",
+ "required": [
+  "schema_version",
+  "generated_at",
+  "tool",
+  "repo",
+  "entry_points",
+  "critical_flows",
+  "cruxes",
+  "files",
+  "method_analysis",
+  "score_distribution",
+  "skipped_files",
+  "notes",
+  "run"
+ ],
+ "properties": {
+  "schema_version": {
+   "type": "string"
+  },
+  "generated_at": {
+   "type": "string",
+   "description": "ISO-8601 UTC timestamp"
+  },
+  "tool": {
+   "type": "object",
+   "required": [
+    "name",
+    "version"
+   ],
+   "properties": {
+    "name": {
+     "type": "string"
+    },
+    "version": {
+     "type": "string"
+    }
+   }
+  },
+  "repo": {
+   "type": "object",
+   "required": [
+    "name",
+    "path",
+    "kind",
+    "summary",
+    "languages",
+    "files_analyzed",
+    "methods_analyzed"
+   ],
+   "properties": {
+    "name": {
+     "type": "string"
+    },
+    "path": {
+     "type": "string"
+    },
+    "commit": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "branch": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "remote": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "kind": {
+     "type": "string",
+     "description": "web_backend | frontend | fullstack | cli | library | worker_service | mobile | data_pipeline | infrastructure | monorepo | other"
+    },
+    "summary": {
+     "type": "string",
+     "description": "what the system does, for whom"
+    },
+    "languages": {
+     "type": "object",
+     "description": "language -> analyzed lines"
+    },
+    "files_analyzed": {
+     "type": "integer",
+     "minimum": 0
+    },
+    "lines_analyzed": {
+     "type": "integer",
+     "minimum": 0
+    },
+    "methods_analyzed": {
+     "type": "integer",
+     "minimum": 0
+    }
+   }
+  },
+  "entry_points": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "kind",
+     "trigger",
+     "file",
+     "symbol",
+     "name",
+     "criticality",
+     "flows",
+     "description",
+     "source"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "description": "E-id"
+     },
+     "kind": {
+      "type": "string",
+      "description": "http | graphql | grpc | websocket | cli | main | consumer | job | scheduled | serverless | ui-route | ui-bootstrap | bootstrap | handler | middleware | public-api | webhook | other"
+     },
+     "trigger": {
+      "type": "string",
+      "description": "e.g. 'POST /api/orders', command name, topic"
+     },
+     "file": {
+      "type": "string"
+     },
+     "line": {
+      "type": [
+       "integer",
+       "null"
+      ],
+      "minimum": 1
+     },
+     "symbol": {
+      "type": [
+       "string",
+       "null"
+      ],
+      "description": "S-id of the handler, null for top-level code"
+     },
+     "name": {
+      "type": "string"
+     },
+     "criticality": {
+      "type": [
+       "integer",
+       "null"
+      ],
+      "minimum": 1,
+      "maximum": 10,
+      "description": "1-10"
+     },
+     "flows": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "description": {
+      "type": "string"
+     },
+     "evidence": {
+      "type": "string",
+      "description": "source line that triggered detection"
+     },
+     "source": {
+      "type": "string",
+      "enum": [
+       "static",
+       "llm",
+       "static+llm"
+      ]
+     },
+     "detected_by": {
+      "type": [
+       "string",
+       "null"
+      ]
+     }
+    }
+   },
+   "description": "Sorted by criticality, descending."
+  },
+  "critical_flows": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "name",
+     "criticality",
+     "confidence",
+     "traced",
+     "entry_points",
+     "steps",
+     "business_impact",
+     "failure_modes",
+     "observable_outcomes",
+     "preconditions",
+     "gaps",
+     "cruxes"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "description": "F-id"
+     },
+     "name": {
+      "type": "string"
+     },
+     "criticality": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10
+     },
+     "confidence": {
+      "type": "string",
+      "enum": [
+       "high",
+       "medium",
+       "low"
+      ]
+     },
+     "traced": {
+      "type": "boolean",
+      "description": "true when the path was confirmed against code in the trace phase"
+     },
+     "entry_points": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "steps": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "required": [
+        "symbol",
+        "name",
+        "file",
+        "line",
+        "what",
+        "certain"
+       ],
+       "properties": {
+        "symbol": {
+         "type": "string"
+        },
+        "name": {
+         "type": "string"
+        },
+        "file": {
+         "type": "string"
+        },
+        "line": {
+         "type": "integer",
+         "minimum": 1
+        },
+        "what": {
+         "type": "string"
+        },
+        "certain": {
+         "type": "boolean"
+        }
+       }
+      }
+     },
+     "business_impact": {
+      "type": "string"
+     },
+     "failure_modes": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "observable_outcomes": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "preconditions": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "gaps": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "cruxes": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "description": "C-ids"
+     }
+    }
+   }
+  },
+  "cruxes": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "symbol",
+     "key",
+     "name",
+     "file",
+     "line",
+     "kind",
+     "score",
+     "flows",
+     "why",
+     "risk_if_broken",
+     "sources"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "description": "C-id"
+     },
+     "symbol": {
+      "type": "string"
+     },
+     "key": {
+      "type": "string",
+      "description": "stable path::Qualified.name"
+     },
+     "name": {
+      "type": "string"
+     },
+     "file": {
+      "type": "string"
+     },
+     "line": {
+      "type": "integer",
+      "minimum": 1
+     },
+     "kind": {
+      "type": "string",
+      "enum": [
+       "auth_gate",
+       "transaction_boundary",
+       "core_domain_rule",
+       "state_transition",
+       "persistence",
+       "integration",
+       "dispatch",
+       "validation",
+       "configuration",
+       "other"
+      ]
+     },
+     "score": {
+      "type": [
+       "integer",
+       "null"
+      ],
+      "minimum": 1,
+      "maximum": 10
+     },
+     "flows": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "why": {
+      "type": "string"
+     },
+     "risk_if_broken": {
+      "type": "string"
+     },
+     "sources": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   }
+  },
+  "files": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "path",
+     "language",
+     "lines",
+     "score",
+     "summary",
+     "methods",
+     "max_method_score",
+     "mean_top3",
+     "churn",
+     "fix_churn",
+     "extractor",
+     "score_source"
+    ],
+    "properties": {
+     "path": {
+      "type": "string"
+     },
+     "language": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "lines": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "score": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10,
+      "description": "1-10 importance to the repository's critical flows"
+     },
+     "summary": {
+      "type": "string"
+     },
+     "methods": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "max_method_score": {
+      "type": [
+       "integer",
+       "null"
+      ],
+      "minimum": 1,
+      "maximum": 10
+     },
+     "mean_top3": {
+      "type": [
+       "number",
+       "null"
+      ]
+     },
+     "churn": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "fix_churn": {
+      "type": "integer",
+      "minimum": 0
+     },
+     "extractor": {
+      "type": "string"
+     },
+     "score_source": {
+      "type": "string",
+      "enum": [
+       "llm",
+       "llm+clamped",
+       "derived"
+      ]
+     }
+    }
+   },
+   "description": "Sorted by score, descending."
+  },
+  "method_analysis": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "key",
+     "file",
+     "name",
+     "qualified_name",
+     "kind",
+     "start_line",
+     "score",
+     "role",
+     "flows",
+     "why",
+     "confidence",
+     "source",
+     "is_entry_point",
+     "is_crux"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "description": "S-id (X-id for functions discovered by the model)"
+     },
+     "key": {
+      "type": "string",
+      "description": "stable path::Qualified.name[#n]"
+     },
+     "file": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "qualified_name": {
+      "type": "string"
+     },
+     "kind": {
+      "type": "string",
+      "description": "function | method | constructor"
+     },
+     "start_line": {
+      "type": [
+       "integer",
+       "null"
+      ],
+      "minimum": 1
+     },
+     "end_line": {
+      "type": [
+       "integer",
+       "null"
+      ],
+      "minimum": 1
+     },
+     "score": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10,
+      "description": "1-10 importance to the repository's critical flows"
+     },
+     "role": {
+      "type": "string",
+      "enum": [
+       "entry",
+       "orchestration",
+       "business_rule",
+       "validation",
+       "security",
+       "persistence",
+       "integration",
+       "transformation",
+       "error_handling",
+       "configuration",
+       "ui",
+       "utility",
+       "accessor",
+       "dead_code",
+       "other"
+      ]
+     },
+     "flows": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "why": {
+      "type": "string",
+      "description": "consequence if wrong"
+     },
+     "confidence": {
+      "type": "string",
+      "enum": [
+       "high",
+       "medium",
+       "low"
+      ]
+     },
+     "source": {
+      "type": "string",
+      "enum": [
+       "llm",
+       "llm-override",
+       "llm-discovered",
+       "rule",
+       "static-fallback"
+      ]
+     },
+     "is_entry_point": {
+      "type": "boolean"
+     },
+     "is_crux": {
+      "type": "boolean"
+     },
+     "calibrated_from": {
+      "type": [
+       "integer",
+       "null"
+      ],
+      "minimum": 1,
+      "maximum": 10
+     },
+     "calibration_reason": {
+      "type": "string"
+     },
+     "static": {
+      "type": [
+       "object",
+       "null"
+      ],
+      "description": "fan_in, fan_in_files, loc, complexity, tags, flow_reach, trivial, priority"
+     }
+    }
+   },
+   "description": "Sorted by score, descending."
+  },
+  "score_distribution": {
+   "type": "object",
+   "description": "score -> number of methods"
+  },
+  "skipped_files": {
+   "type": "object",
+   "required": [
+    "counts",
+    "examples"
+   ],
+   "properties": {
+    "counts": {
+     "type": "object"
+    },
+    "examples": {
+     "type": "object"
+    }
+   }
+  },
+  "notes": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "run": {
+   "type": "object",
+   "description": "backend, models, per-phase calls/tokens/cost, warnings"
+  }
+ }
+}

@@ -1,0 +1,86 @@
+{
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "adjustments",
+  "cruxes",
+  "notes"
+ ],
+ "properties": {
+  "adjustments": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "id",
+     "score",
+     "reason"
+    ],
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "score": {
+      "type": "integer"
+     },
+     "reason": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "cruxes": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "symbol",
+     "kind",
+     "why",
+     "flows",
+     "risk_if_broken"
+    ],
+    "properties": {
+     "symbol": {
+      "type": "string"
+     },
+     "kind": {
+      "type": "string",
+      "enum": [
+       "auth_gate",
+       "transaction_boundary",
+       "core_domain_rule",
+       "state_transition",
+       "persistence",
+       "integration",
+       "dispatch",
+       "validation",
+       "configuration",
+       "other"
+      ]
+     },
+     "why": {
+      "type": "string"
+     },
+     "flows": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "risk_if_broken": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "notes": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  }
+ }
+}

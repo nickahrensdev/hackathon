@@ -1,0 +1,279 @@
+{
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "system_summary",
+  "repo_kind",
+  "rejected_entry_candidates",
+  "entry_points",
+  "added_entry_points",
+  "critical_flows",
+  "cruxes",
+  "notes"
+ ],
+ "properties": {
+  "system_summary": {
+   "type": "string"
+  },
+  "repo_kind": {
+   "type": "string",
+   "enum": [
+    "web_backend",
+    "frontend",
+    "fullstack",
+    "cli",
+    "library",
+    "worker_service",
+    "mobile",
+    "data_pipeline",
+    "infrastructure",
+    "monorepo",
+    "other"
+   ]
+  },
+  "rejected_entry_candidates": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "entry_points": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "id",
+     "trigger",
+     "criticality",
+     "flows",
+     "description"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "description": "E-id from the brief"
+     },
+     "trigger": {
+      "type": "string"
+     },
+     "criticality": {
+      "type": "integer"
+     },
+     "flows": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "description": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "added_entry_points": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "symbol",
+     "file",
+     "name",
+     "kind",
+     "trigger",
+     "criticality",
+     "flows",
+     "description"
+    ],
+    "properties": {
+     "symbol": {
+      "type": "string",
+      "description": "S-id, or empty string when the symbol is not in the skeleton"
+     },
+     "file": {
+      "type": "string"
+     },
+     "name": {
+      "type": "string"
+     },
+     "kind": {
+      "type": "string",
+      "enum": [
+       "http",
+       "graphql",
+       "grpc",
+       "websocket",
+       "cli",
+       "main",
+       "consumer",
+       "job",
+       "scheduled",
+       "serverless",
+       "ui-route",
+       "ui-bootstrap",
+       "bootstrap",
+       "handler",
+       "middleware",
+       "public-api",
+       "webhook",
+       "other"
+      ]
+     },
+     "trigger": {
+      "type": "string"
+     },
+     "criticality": {
+      "type": "integer"
+     },
+     "flows": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "description": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "critical_flows": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "id",
+     "name",
+     "criticality",
+     "entry_points",
+     "steps",
+     "business_impact",
+     "failure_modes",
+     "observable_outcomes",
+     "preconditions",
+     "confidence"
+    ],
+    "properties": {
+     "id": {
+      "type": "string",
+      "description": "F1, F2, ... in order of criticality"
+     },
+     "name": {
+      "type": "string"
+     },
+     "criticality": {
+      "type": "integer"
+     },
+     "entry_points": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "description": "E-ids"
+     },
+     "steps": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "description": "ordered S-ids"
+     },
+     "business_impact": {
+      "type": "string"
+     },
+     "failure_modes": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "observable_outcomes": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "preconditions": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "confidence": {
+      "type": "string",
+      "enum": [
+       "high",
+       "medium",
+       "low"
+      ]
+     }
+    }
+   }
+  },
+  "cruxes": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "symbol",
+     "kind",
+     "why",
+     "flows",
+     "risk_if_broken",
+     "confidence"
+    ],
+    "properties": {
+     "symbol": {
+      "type": "string",
+      "description": "S-id"
+     },
+     "kind": {
+      "type": "string",
+      "enum": [
+       "auth_gate",
+       "transaction_boundary",
+       "core_domain_rule",
+       "state_transition",
+       "persistence",
+       "integration",
+       "dispatch",
+       "validation",
+       "configuration",
+       "other"
+      ]
+     },
+     "why": {
+      "type": "string"
+     },
+     "flows": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "risk_if_broken": {
+      "type": "string"
+     },
+     "confidence": {
+      "type": "string",
+      "enum": [
+       "high",
+       "medium",
+       "low"
+      ]
+     }
+    }
+   }
+  },
+  "notes": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  }
+ }
+}

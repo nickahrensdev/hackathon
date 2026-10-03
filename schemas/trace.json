@@ -1,0 +1,115 @@
+{
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "steps",
+  "cruxes",
+  "off_path",
+  "criticality",
+  "business_impact",
+  "observable_outcomes",
+  "preconditions",
+  "failure_modes",
+  "gaps"
+ ],
+ "properties": {
+  "steps": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "symbol",
+     "what",
+     "certain"
+    ],
+    "properties": {
+     "symbol": {
+      "type": "string"
+     },
+     "what": {
+      "type": "string"
+     },
+     "certain": {
+      "type": "boolean"
+     }
+    }
+   }
+  },
+  "cruxes": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "symbol",
+     "kind",
+     "why",
+     "risk_if_broken"
+    ],
+    "properties": {
+     "symbol": {
+      "type": "string"
+     },
+     "kind": {
+      "type": "string",
+      "enum": [
+       "auth_gate",
+       "transaction_boundary",
+       "core_domain_rule",
+       "state_transition",
+       "persistence",
+       "integration",
+       "dispatch",
+       "validation",
+       "configuration",
+       "other"
+      ]
+     },
+     "why": {
+      "type": "string"
+     },
+     "risk_if_broken": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "off_path": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "criticality": {
+   "type": "integer"
+  },
+  "business_impact": {
+   "type": "string"
+  },
+  "observable_outcomes": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "preconditions": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "failure_modes": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "gaps": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  }
+ }
+}

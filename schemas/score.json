@@ -1,0 +1,159 @@
+{
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "files"
+ ],
+ "properties": {
+  "files": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "path",
+     "score",
+     "summary",
+     "methods",
+     "extra"
+    ],
+    "properties": {
+     "path": {
+      "type": "string"
+     },
+     "score": {
+      "type": "integer"
+     },
+     "summary": {
+      "type": "string"
+     },
+     "methods": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "additionalProperties": false,
+       "required": [
+        "id",
+        "score",
+        "role",
+        "flows",
+        "why",
+        "confidence"
+       ],
+       "properties": {
+        "id": {
+         "type": "string",
+         "description": "S-id"
+        },
+        "score": {
+         "type": "integer"
+        },
+        "role": {
+         "type": "string",
+         "enum": [
+          "entry",
+          "orchestration",
+          "business_rule",
+          "validation",
+          "security",
+          "persistence",
+          "integration",
+          "transformation",
+          "error_handling",
+          "configuration",
+          "ui",
+          "utility",
+          "accessor",
+          "dead_code",
+          "other"
+         ]
+        },
+        "flows": {
+         "type": "array",
+         "items": {
+          "type": "string"
+         }
+        },
+        "why": {
+         "type": "string"
+        },
+        "confidence": {
+         "type": "string",
+         "enum": [
+          "high",
+          "medium",
+          "low"
+         ]
+        }
+       }
+      }
+     },
+     "extra": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "additionalProperties": false,
+       "required": [
+        "name",
+        "line",
+        "score",
+        "role",
+        "flows",
+        "why",
+        "confidence"
+       ],
+       "properties": {
+        "name": {
+         "type": "string"
+        },
+        "line": {
+         "type": "integer"
+        },
+        "score": {
+         "type": "integer"
+        },
+        "role": {
+         "type": "string",
+         "enum": [
+          "entry",
+          "orchestration",
+          "business_rule",
+          "validation",
+          "security",
+          "persistence",
+          "integration",
+          "transformation",
+          "error_handling",
+          "configuration",
+          "ui",
+          "utility",
+          "accessor",
+          "dead_code",
+          "other"
+         ]
+        },
+        "flows": {
+         "type": "array",
+         "items": {
+          "type": "string"
+         }
+        },
+        "why": {
+         "type": "string"
+        },
+        "confidence": {
+         "type": "string",
+         "enum": [
+          "high",
+          "medium",
+          "low"
+         ]
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}

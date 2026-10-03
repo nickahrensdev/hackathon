@@ -1,0 +1,3763 @@
+{
+ "schema_version": "1.0",
+ "generated_at": "2026-10-03T17:10:59+00:00",
+ "tool": {
+  "name": "repo-crux",
+  "version": "1.0.0"
+ },
+ "repo": {
+  "name": "node-express-realworld-example-app",
+  "path": "node-express-realworld-example-app",
+  "commit": "30b68e1e881462b2f4164ea09ab4c4f5699c7b0b",
+  "branch": "master",
+  "remote": "https://github.com/gothinkster/node-express-realworld-example-app",
+  "kind": "web_backend",
+  "summary": "RealWorld (Conduit) blogging API built on Express, Prisma and JWT. It handles user registration and login, articles, comments, favorites, follows and tags for Conduit frontend clients. Logged-out readers see only demo authors' content; logged-in users also see their own.",
+  "languages": {
+   "typescript": 1646,
+   "javascript": 3
+  },
+  "files_analyzed": 26,
+  "lines_analyzed": 1649,
+  "methods_analyzed": 56
+ },
+ "entry_points": [
+  {
+   "id": "E13",
+   "kind": "http",
+   "trigger": "POST /api/users/login",
+   "file": "src/app/routes/auth/auth.controller.ts",
+   "line": 30,
+   "symbol": "Sdf04w",
+   "name": "router.post('/users/login')",
+   "criticality": 10,
+   "flows": [
+    "F1"
+   ],
+   "description": "Login with email and password. Returns a JWT.",
+   "evidence": "router.post('/users/login', async (req: Request, res: Response, next: NextFunction) => {",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E12",
+   "kind": "http",
+   "trigger": "POST /api/users",
+   "file": "src/app/routes/auth/auth.controller.ts",
+   "line": 14,
+   "symbol": "So7r9o",
+   "name": "router.post('/users')",
+   "criticality": 9,
+   "flows": [
+    "F2"
+   ],
+   "description": "Registers a user, hashes the password and returns a JWT.",
+   "evidence": "router.post('/users', async (req: Request, res: Response, next: NextFunction) => {",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E15",
+   "kind": "http",
+   "trigger": "PUT /api/user",
+   "file": "src/app/routes/auth/auth.controller.ts",
+   "line": 61,
+   "symbol": "S9l9as",
+   "name": "router.put('/user')",
+   "criticality": 9,
+   "flows": [
+    "F3"
+   ],
+   "description": "Updates the authenticated user's email, username or password.",
+   "evidence": "router.put('/user', auth.required, async (req: Request, res: Response, next: NextFunction) => {",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E26",
+   "kind": "middleware",
+   "trigger": "Every route guarded by auth.required or auth.optional",
+   "file": "src/app/routes/auth/auth.ts",
+   "line": 4,
+   "symbol": "Seetb9",
+   "name": "getTokenFromHeaders",
+   "criticality": 9,
+   "flows": [
+    "F1",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7"
+   ],
+   "description": "express-jwt middleware that takes the token from a Token/Bearer header and sets req.auth.",
+   "evidence": "const getTokenFromHeaders = (req: express.Request): string | null =>",
+   "source": "llm",
+   "detected_by": "llm"
+  },
+  {
+   "id": "E3",
+   "kind": "http",
+   "trigger": "POST /api/articles",
+   "file": "src/app/routes/article/article.controller.ts",
+   "line": 71,
+   "symbol": "Sr30e3",
+   "name": "router.post('/articles')",
+   "criticality": 8,
+   "flows": [
+    "F4"
+   ],
+   "description": "Creates an article with a slug and tags.",
+   "evidence": "router.post('/articles', auth.required, async (req: Request, res: Response, next: NextFunction) => {",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E5",
+   "kind": "http",
+   "trigger": "PUT /api/articles/:slug",
+   "file": "src/app/routes/article/article.controller.ts",
+   "line": 110,
+   "symbol": "Smgaxl",
+   "name": "router.put('/articles/:slug')",
+   "criticality": 8,
+   "flows": [
+    "F4"
+   ],
+   "description": "Updates an article, gated by an ownership check. Tags are reset.",
+   "evidence": "router.put(",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E6",
+   "kind": "http",
+   "trigger": "DELETE /api/articles/:slug",
+   "file": "src/app/routes/article/article.controller.ts",
+   "line": 129,
+   "symbol": "Stvieo",
+   "name": "router.delete('/articles/:slug')",
+   "criticality": 8,
+   "flows": [
+    "F4"
+   ],
+   "description": "Deletes an article, gated by an ownership check.",
+   "evidence": "router.delete(",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E23",
+   "kind": "middleware",
+   "trigger": "Express error middleware (any route error)",
+   "file": "src/main.ts",
+   "line": 26,
+   "symbol": "Syduve",
+   "name": "<callback of app.use() @L27>",
+   "criticality": 8,
+   "flows": [
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7"
+   ],
+   "description": "Maps JWT errors to 401, HttpException to its status code, and anything else to 500.",
+   "evidence": "app.use(",
+   "source": "static+llm",
+   "detected_by": "express-mw"
+  },
+  {
+   "id": "E1",
+   "kind": "http",
+   "trigger": "GET /api/articles",
+   "file": "src/app/routes/article/article.controller.ts",
+   "line": 30,
+   "symbol": "S10duf",
+   "name": "router.get('/articles')",
+   "criticality": 7,
+   "flows": [
+    "F6"
+   ],
+   "description": "Paginated, filtered list of articles. This is the main read path.",
+   "evidence": "router.get('/articles', auth.optional, async (req: Request, res: Response, next: NextFunction) => {",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E9",
+   "kind": "http",
+   "trigger": "DELETE /api/articles/:slug/comments/:id",
+   "file": "src/app/routes/article/article.controller.ts",
+   "line": 190,
+   "symbol": "Sip44b",
+   "name": "router.delete('/articles/:slug/comments/:id')",
+   "criticality": 7,
+   "flows": [
+    "F5"
+   ],
+   "description": "Deletes a comment, gated by an ownership check.",
+   "evidence": "router.delete(",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E14",
+   "kind": "http",
+   "trigger": "GET /api/user",
+   "file": "src/app/routes/auth/auth.controller.ts",
+   "line": 45,
+   "symbol": "Sk5q2z",
+   "name": "router.get('/user')",
+   "criticality": 7,
+   "flows": [
+    "F3"
+   ],
+   "description": "Returns the current user and a freshly issued token.",
+   "evidence": "router.get('/user', auth.required, async (req: Request, res: Response, next: NextFunction) => {",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E24",
+   "kind": "bootstrap",
+   "trigger": "node dist/api/main.js (app.listen)",
+   "file": "src/main.ts",
+   "line": 55,
+   "symbol": "S0mdak",
+   "name": "<callback of app.listen() @L55>",
+   "criticality": 7,
+   "flows": [
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F8"
+   ],
+   "description": "Starts the server on PORT.",
+   "evidence": "app.listen(PORT, () => {",
+   "source": "static+llm",
+   "detected_by": "server-start"
+  },
+  {
+   "id": "E2",
+   "kind": "http",
+   "trigger": "GET /api/articles/feed",
+   "file": "src/app/routes/article/article.controller.ts",
+   "line": 45,
+   "symbol": "Ssx2ji",
+   "name": "router.get('/articles/feed')",
+   "criticality": 6,
+   "flows": [
+    "F6"
+   ],
+   "description": "Articles from followed authors. Requires auth.",
+   "evidence": "router.get(",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E4",
+   "kind": "http",
+   "trigger": "GET /api/articles/:slug",
+   "file": "src/app/routes/article/article.controller.ts",
+   "line": 87,
+   "symbol": "Srrynd",
+   "name": "router.get('/articles/:slug')",
+   "criticality": 6,
+   "flows": [
+    "F6"
+   ],
+   "description": "Gets a single article by slug.",
+   "evidence": "router.get(",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E8",
+   "kind": "http",
+   "trigger": "POST /api/articles/:slug/comments",
+   "file": "src/app/routes/article/article.controller.ts",
+   "line": 170,
+   "symbol": "Sbqv1h",
+   "name": "router.post('/articles/:slug/comments')",
+   "criticality": 6,
+   "flows": [
+    "F5"
+   ],
+   "description": "Adds a comment to an article.",
+   "evidence": "router.post(",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E7",
+   "kind": "http",
+   "trigger": "GET /api/articles/:slug/comments",
+   "file": "src/app/routes/article/article.controller.ts",
+   "line": 149,
+   "symbol": "Sz5l3t",
+   "name": "router.get('/articles/:slug/comments')",
+   "criticality": 5,
+   "flows": [
+    "F5"
+   ],
+   "description": "Lists the comments that are visible to the caller.",
+   "evidence": "router.get(",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E10",
+   "kind": "http",
+   "trigger": "POST /api/articles/:slug/favorite",
+   "file": "src/app/routes/article/article.controller.ts",
+   "line": 210,
+   "symbol": "S312mh",
+   "name": "router.post('/articles/:slug/favorite')",
+   "criticality": 5,
+   "flows": [
+    "F7"
+   ],
+   "description": "Favorites an article.",
+   "evidence": "router.post(",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E11",
+   "kind": "http",
+   "trigger": "DELETE /api/articles/:slug/favorite",
+   "file": "src/app/routes/article/article.controller.ts",
+   "line": 230,
+   "symbol": "Sitooa",
+   "name": "router.delete('/articles/:slug/favorite')",
+   "criticality": 5,
+   "flows": [
+    "F7"
+   ],
+   "description": "Unfavorites an article.",
+   "evidence": "router.delete(",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E16",
+   "kind": "http",
+   "trigger": "GET /api/profiles/:username",
+   "file": "src/app/routes/profile/profile.controller.ts",
+   "line": 14,
+   "symbol": "Snfte1",
+   "name": "router.get('/profiles/:username')",
+   "criticality": 5,
+   "flows": [
+    "F7"
+   ],
+   "description": "Gets a user profile and whether the caller follows it.",
+   "evidence": "router.get(",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E17",
+   "kind": "http",
+   "trigger": "POST /api/profiles/:username/follow",
+   "file": "src/app/routes/profile/profile.controller.ts",
+   "line": 34,
+   "symbol": "Svit2v",
+   "name": "router.post('/profiles/:username/follow')",
+   "criticality": 5,
+   "flows": [
+    "F7"
+   ],
+   "description": "Follows a user.",
+   "evidence": "router.post(",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E18",
+   "kind": "http",
+   "trigger": "DELETE /api/profiles/:username/follow",
+   "file": "src/app/routes/profile/profile.controller.ts",
+   "line": 54,
+   "symbol": "S1zlgv",
+   "name": "router.delete('/profiles/:username/follow')",
+   "criticality": 5,
+   "flows": [
+    "F7"
+   ],
+   "description": "Unfollows a user.",
+   "evidence": "router.delete(",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E19",
+   "kind": "http",
+   "trigger": "GET /api/tags",
+   "file": "src/app/routes/tag/tag.controller.ts",
+   "line": 13,
+   "symbol": "S553kk",
+   "name": "router.get('/tags')",
+   "criticality": 4,
+   "flows": [
+    "F8"
+   ],
+   "description": "Top 10 tags among visible articles.",
+   "evidence": "router.get('/tags', auth.optional, async (req: Request, res: Response, next: NextFunction) => {",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  },
+  {
+   "id": "E20",
+   "kind": "middleware",
+   "trigger": "app.use(cors()/bodyParser) global middleware",
+   "file": "src/main.ts",
+   "line": 13,
+   "symbol": null,
+   "name": "<top-level>",
+   "criticality": 4,
+   "flows": [
+    "F1",
+    "F2",
+    "F4"
+   ],
+   "description": "Global CORS and body parsing. Mounts the /api router.",
+   "evidence": "app.use(cors());",
+   "source": "static+llm",
+   "detected_by": "express-mw"
+  },
+  {
+   "id": "E25",
+   "kind": "cli",
+   "trigger": "npx prisma db seed",
+   "file": "src/prisma/seed.ts",
+   "line": 39,
+   "symbol": "Sc6p2m",
+   "name": "main",
+   "criticality": 3,
+   "flows": [
+    "F9"
+   ],
+   "description": "Seeds demo users, articles and comments through the service functions.",
+   "evidence": "const main = async () =>",
+   "source": "llm",
+   "detected_by": "llm"
+  },
+  {
+   "id": "E22",
+   "kind": "http",
+   "trigger": "GET /",
+   "file": "src/main.ts",
+   "line": 21,
+   "symbol": "Sret76",
+   "name": "app.get('/')",
+   "criticality": 2,
+   "flows": [],
+   "description": "Health/status message.",
+   "evidence": "app.get('/', (req: express.Request, res: express.Response) => {",
+   "source": "static+llm",
+   "detected_by": "js-route"
+  }
+ ],
+ "critical_flows": [
+  {
+   "id": "F1",
+   "name": "Login and JWT authentication",
+   "criticality": 10,
+   "confidence": "high",
+   "traced": false,
+   "entry_points": [
+    "E13",
+    "E23",
+    "E20",
+    "E24",
+    "E26"
+   ],
+   "steps": [
+    {
+     "symbol": "Sdf04w",
+     "name": "router.post('/users/login')",
+     "file": "src/app/routes/auth/auth.controller.ts",
+     "line": 30,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "S9emrl",
+     "name": "login",
+     "file": "src/app/routes/auth/auth.service.ts",
+     "line": 84,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "S1zvyg",
+     "name": "generateToken",
+     "file": "src/app/routes/auth/token.utils.ts",
+     "line": 3,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Seetb9",
+     "name": "getTokenFromHeaders",
+     "file": "src/app/routes/auth/auth.ts",
+     "line": 4,
+     "what": "",
+     "certain": false
+    }
+   ],
+   "business_impact": "Establishes identity for every protected action. A bug here can lock all users out or allow account takeover.",
+   "failure_modes": [
+    "Hardcoded 'superSecret' fallback if JWT_SECRET is unset allows forged tokens",
+    "bcrypt compare bypass",
+    "User enumeration through different errors"
+   ],
+   "observable_outcomes": [
+    "200 with user and token",
+    "403 for invalid credentials",
+    "401 on protected routes without a valid token"
+   ],
+   "preconditions": [
+    "User exists with a bcrypt hash",
+    "JWT_SECRET configured"
+   ],
+   "gaps": [],
+   "cruxes": [
+    "C1",
+    "C2",
+    "C3"
+   ]
+  },
+  {
+   "id": "F2",
+   "name": "User registration",
+   "criticality": 9,
+   "confidence": "high",
+   "traced": false,
+   "entry_points": [
+    "E12",
+    "E20",
+    "E23",
+    "E24"
+   ],
+   "steps": [
+    {
+     "symbol": "So7r9o",
+     "name": "router.post('/users')",
+     "file": "src/app/routes/auth/auth.controller.ts",
+     "line": 14,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Smh9w0",
+     "name": "createUser",
+     "file": "src/app/routes/auth/auth.service.ts",
+     "line": 38,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "S2e38y",
+     "name": "checkUserUniqueness",
+     "file": "src/app/routes/auth/auth.service.ts",
+     "line": 9,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "S1zvyg",
+     "name": "generateToken",
+     "file": "src/app/routes/auth/token.utils.ts",
+     "line": 3,
+     "what": "",
+     "certain": false
+    }
+   ],
+   "business_impact": "This is how users sign up. A bug can create duplicate accounts or store passwords incorrectly.",
+   "failure_modes": [
+    "Race between the uniqueness check and create gives a 500",
+    "Blank fields not rejected",
+    "Plaintext password stored"
+   ],
+   "observable_outcomes": [
+    "201 with user and token",
+    "422 when email or username is taken or blank",
+    "New User row with hashed password"
+   ],
+   "preconditions": [
+    "Database migrated"
+   ],
+   "gaps": [],
+   "cruxes": [
+    "C1",
+    "C4"
+   ]
+  },
+  {
+   "id": "F3",
+   "name": "Current user read and update",
+   "criticality": 8,
+   "confidence": "high",
+   "traced": false,
+   "entry_points": [
+    "E14",
+    "E15",
+    "E23",
+    "E24",
+    "E26"
+   ],
+   "steps": [
+    {
+     "symbol": "Seetb9",
+     "name": "getTokenFromHeaders",
+     "file": "src/app/routes/auth/auth.ts",
+     "line": 4,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Sk5q2z",
+     "name": "router.get('/user')",
+     "file": "src/app/routes/auth/auth.controller.ts",
+     "line": 45,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Sftth1",
+     "name": "getCurrentUser",
+     "file": "src/app/routes/auth/auth.service.ts",
+     "line": 131,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "S9l9as",
+     "name": "router.put('/user')",
+     "file": "src/app/routes/auth/auth.controller.ts",
+     "line": 61,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Shluxz",
+     "name": "updateUser",
+     "file": "src/app/routes/auth/auth.service.ts",
+     "line": 151,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "S1zvyg",
+     "name": "generateToken",
+     "file": "src/app/routes/auth/token.utils.ts",
+     "line": 3,
+     "what": "",
+     "certain": false
+    }
+   ],
+   "business_impact": "Changes credentials (email and password). A bug can corrupt the account or let one user take another's email or username.",
+   "failure_modes": [
+    "No uniqueness check on email or username, so a duplicate gives a 500",
+    "getCurrentUser on a deleted user crashes on null",
+    "Password not hashed"
+   ],
+   "observable_outcomes": [
+    "200 with updated user and new token",
+    "User row updated"
+   ],
+   "preconditions": [
+    "Valid JWT",
+    "User exists"
+   ],
+   "gaps": [],
+   "cruxes": [
+    "C1",
+    "C3"
+   ]
+  },
+  {
+   "id": "F4",
+   "name": "Article authoring (create, update, delete)",
+   "criticality": 8,
+   "confidence": "high",
+   "traced": false,
+   "entry_points": [
+    "E3",
+    "E5",
+    "E6",
+    "E20",
+    "E23",
+    "E24",
+    "E26"
+   ],
+   "steps": [
+    {
+     "symbol": "Seetb9",
+     "name": "getTokenFromHeaders",
+     "file": "src/app/routes/auth/auth.ts",
+     "line": 4,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Sr30e3",
+     "name": "router.post('/articles')",
+     "file": "src/app/routes/article/article.controller.ts",
+     "line": 71,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Sk4ypw",
+     "name": "createArticle",
+     "file": "src/app/routes/article/article.service.ts",
+     "line": 162,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Smgaxl",
+     "name": "router.put('/articles/:slug')",
+     "file": "src/app/routes/article/article.controller.ts",
+     "line": 113,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Spkhg5",
+     "name": "updateArticle",
+     "file": "src/app/routes/article/article.service.ts",
+     "line": 289,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Shzirt",
+     "name": "disconnectArticlesTags",
+     "file": "src/app/routes/article/article.service.ts",
+     "line": 276,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Stvieo",
+     "name": "router.delete('/articles/:slug')",
+     "file": "src/app/routes/article/article.controller.ts",
+     "line": 132,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Slpnnl",
+     "name": "deleteArticle",
+     "file": "src/app/routes/article/article.service.ts",
+     "line": 385,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Scmiua",
+     "name": "articleMapper",
+     "file": "src/app/routes/article/article.mapper.ts",
+     "line": 3,
+     "what": "",
+     "certain": false
+    }
+   ],
+   "business_impact": "This is the core content. Weak ownership checks would let users edit or delete other users' articles.",
+   "failure_modes": [
+    "Ownership check bypass",
+    "Tags are disconnected before the update with no transaction, so a failed update loses tags",
+    "Slug collision"
+   ],
+   "observable_outcomes": [
+    "201 with created article",
+    "200 with updated article",
+    "204 on delete",
+    "403 when the caller is not the author"
+   ],
+   "preconditions": [
+    "Valid JWT",
+    "Article exists for update or delete"
+   ],
+   "gaps": [],
+   "cruxes": [
+    "C3",
+    "C5",
+    "C6"
+   ]
+  },
+  {
+   "id": "F6",
+   "name": "Article reading (list, feed, single)",
+   "criticality": 7,
+   "confidence": "high",
+   "traced": false,
+   "entry_points": [
+    "E1",
+    "E2",
+    "E4",
+    "E23",
+    "E24",
+    "E26"
+   ],
+   "steps": [
+    {
+     "symbol": "S10duf",
+     "name": "router.get('/articles')",
+     "file": "src/app/routes/article/article.controller.ts",
+     "line": 30,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Sba6ff",
+     "name": "getArticles",
+     "file": "src/app/routes/article/article.service.ts",
+     "line": 69,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "S8gmle",
+     "name": "buildFindAllQuery",
+     "file": "src/app/routes/article/article.service.ts",
+     "line": 8,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Ssx2ji",
+     "name": "router.get('/articles/feed')",
+     "file": "src/app/routes/article/article.controller.ts",
+     "line": 48,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Srpg6m",
+     "name": "getFeed",
+     "file": "src/app/routes/article/article.service.ts",
+     "line": 113,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Srrynd",
+     "name": "router.get('/articles/:slug')",
+     "file": "src/app/routes/article/article.controller.ts",
+     "line": 90,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "So1qux",
+     "name": "getArticle",
+     "file": "src/app/routes/article/article.service.ts",
+     "line": 241,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Scmiua",
+     "name": "articleMapper",
+     "file": "src/app/routes/article/article.mapper.ts",
+     "line": 3,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Sicfyz",
+     "name": "authorMapper",
+     "file": "src/app/routes/article/author.mapper.ts",
+     "line": 3,
+     "what": "",
+     "certain": false
+    }
+   ],
+   "business_impact": "The main read path for all clients. A bug breaks browsing or leaks hidden content.",
+   "failure_modes": [
+    "Visibility filter (demo or own) shows or hides the wrong content",
+    "Pagination NaN",
+    "Mapper crashes on a missing relation"
+   ],
+   "observable_outcomes": [
+    "200 with articles and articlesCount",
+    "404 when the article is not found"
+   ],
+   "preconditions": [
+    "Articles exist"
+   ],
+   "gaps": [],
+   "cruxes": [
+    "C3"
+   ]
+  },
+  {
+   "id": "F5",
+   "name": "Comments (add, list, delete)",
+   "criticality": 6,
+   "confidence": "high",
+   "traced": false,
+   "entry_points": [
+    "E7",
+    "E8",
+    "E9",
+    "E23",
+    "E24",
+    "E26"
+   ],
+   "steps": [
+    {
+     "symbol": "Seetb9",
+     "name": "getTokenFromHeaders",
+     "file": "src/app/routes/auth/auth.ts",
+     "line": 4,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Sbqv1h",
+     "name": "router.post('/articles/:slug/comments')",
+     "file": "src/app/routes/article/article.controller.ts",
+     "line": 173,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Spdlmn",
+     "name": "addComment",
+     "file": "src/app/routes/article/article.service.ts",
+     "line": 473,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Sz5l3t",
+     "name": "router.get('/articles/:slug/comments')",
+     "file": "src/app/routes/article/article.controller.ts",
+     "line": 152,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Sw403r",
+     "name": "getCommentsByArticle",
+     "file": "src/app/routes/article/article.service.ts",
+     "line": 416,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Sip44b",
+     "name": "router.delete('/articles/:slug/comments/:id')",
+     "file": "src/app/routes/article/article.controller.ts",
+     "line": 193,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Sl6k8v",
+     "name": "deleteComment",
+     "file": "src/app/routes/article/article.service.ts",
+     "line": 527,
+     "what": "",
+     "certain": false
+    }
+   ],
+   "business_impact": "User discussion. A bug can let users delete other people's comments or create orphaned ones.",
+   "failure_modes": [
+    "Nonexistent slug connects to an undefined article id, giving a 500",
+    "Delete ignores the slug",
+    "Comments outside the visibility filter are hidden"
+   ],
+   "observable_outcomes": [
+    "Comment JSON returned",
+    "200 {} on delete",
+    "404 when the comment is not the caller's"
+   ],
+   "preconditions": [
+    "Article exists",
+    "Valid JWT for writes"
+   ],
+   "gaps": [],
+   "cruxes": [
+    "C3",
+    "C7"
+   ]
+  },
+  {
+   "id": "F7",
+   "name": "Social graph (favorite and follow)",
+   "criticality": 5,
+   "confidence": "high",
+   "traced": false,
+   "entry_points": [
+    "E10",
+    "E11",
+    "E16",
+    "E17",
+    "E18",
+    "E23",
+    "E24",
+    "E26"
+   ],
+   "steps": [
+    {
+     "symbol": "Seetb9",
+     "name": "getTokenFromHeaders",
+     "file": "src/app/routes/auth/auth.ts",
+     "line": 4,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "S312mh",
+     "name": "router.post('/articles/:slug/favorite')",
+     "file": "src/app/routes/article/article.controller.ts",
+     "line": 213,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Sq95rv",
+     "name": "favoriteArticle",
+     "file": "src/app/routes/article/article.service.ts",
+     "line": 562,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Sitooa",
+     "name": "router.delete('/articles/:slug/favorite')",
+     "file": "src/app/routes/article/article.controller.ts",
+     "line": 233,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Skbbnk",
+     "name": "unfavoriteArticle",
+     "file": "src/app/routes/article/article.service.ts",
+     "line": 608,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Svit2v",
+     "name": "router.post('/profiles/:username/follow')",
+     "file": "src/app/routes/profile/profile.controller.ts",
+     "line": 37,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "St29jq",
+     "name": "followUser",
+     "file": "src/app/routes/profile/profile.service.ts",
+     "line": 22,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "S1zlgv",
+     "name": "router.delete('/profiles/:username/follow')",
+     "file": "src/app/routes/profile/profile.controller.ts",
+     "line": 57,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Sl3eh6",
+     "name": "unfollowUser",
+     "file": "src/app/routes/profile/profile.service.ts",
+     "line": 42,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "S3i340",
+     "name": "getProfile",
+     "file": "src/app/routes/profile/profile.service.ts",
+     "line": 5,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Szh159",
+     "name": "profileMapper",
+     "file": "src/app/routes/profile/profile.utils.ts",
+     "line": 4,
+     "what": "",
+     "certain": false
+    }
+   ],
+   "business_impact": "Engagement features. These drive the feed and favorite counts.",
+   "failure_modes": [
+    "Unknown slug or username gives a 500 instead of a 404",
+    "Self-follow allowed",
+    "Wrong following/favorited flag"
+   ],
+   "observable_outcomes": [
+    "Profile or article JSON with updated flags and counts"
+   ],
+   "preconditions": [
+    "Valid JWT",
+    "Target exists"
+   ],
+   "gaps": [],
+   "cruxes": [
+    "C3"
+   ]
+  },
+  {
+   "id": "F8",
+   "name": "Popular tags",
+   "criticality": 3,
+   "confidence": "high",
+   "traced": false,
+   "entry_points": [
+    "E19",
+    "E24"
+   ],
+   "steps": [
+    {
+     "symbol": "S553kk",
+     "name": "router.get('/tags')",
+     "file": "src/app/routes/tag/tag.controller.ts",
+     "line": 13,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Smgfl6",
+     "name": "getTags",
+     "file": "src/app/routes/tag/tag.service.ts",
+     "line": 4,
+     "what": "",
+     "certain": false
+    }
+   ],
+   "business_impact": "Tag discovery in the sidebar. Low impact.",
+   "failure_modes": [
+    "Visibility filter mismatch",
+    "Slow aggregate query"
+   ],
+   "observable_outcomes": [
+    "200 with up to 10 tag names"
+   ],
+   "preconditions": [
+    "Tagged articles exist"
+   ],
+   "gaps": [],
+   "cruxes": []
+  },
+  {
+   "id": "F9",
+   "name": "Database seeding",
+   "criticality": 3,
+   "confidence": "high",
+   "traced": false,
+   "entry_points": [
+    "E25"
+   ],
+   "steps": [
+    {
+     "symbol": "Sc6p2m",
+     "name": "main",
+     "file": "src/prisma/seed.ts",
+     "line": 39,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Sdjs6g",
+     "name": "generateUser",
+     "file": "src/prisma/seed.ts",
+     "line": 16,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Smh9w0",
+     "name": "createUser",
+     "file": "src/app/routes/auth/auth.service.ts",
+     "line": 38,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Sbxgtq",
+     "name": "generateArticle",
+     "file": "src/prisma/seed.ts",
+     "line": 25,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Sk4ypw",
+     "name": "createArticle",
+     "file": "src/app/routes/article/article.service.ts",
+     "line": 162,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Stsowb",
+     "name": "generateComment",
+     "file": "src/prisma/seed.ts",
+     "line": 36,
+     "what": "",
+     "certain": false
+    },
+    {
+     "symbol": "Spdlmn",
+     "name": "addComment",
+     "file": "src/app/routes/article/article.service.ts",
+     "line": 473,
+     "what": "",
+     "certain": false
+    }
+   ],
+   "business_impact": "Creates the demo content that anonymous users see.",
+   "failure_modes": [
+    "Errors are swallowed in main, so the seed is partial and still exits 0",
+    "Random name collisions"
+   ],
+   "observable_outcomes": [
+    "Demo users, articles and comments in the database"
+   ],
+   "preconditions": [
+    "Database migrated"
+   ],
+   "gaps": [],
+   "cruxes": [
+    "C4"
+   ]
+  }
+ ],
+ "cruxes": [
+  {
+   "id": "C1",
+   "symbol": "S1zvyg",
+   "key": "src/app/routes/auth/token.utils.ts::generateToken",
+   "name": "generateToken",
+   "file": "src/app/routes/auth/token.utils.ts",
+   "line": 3,
+   "kind": "auth_gate",
+   "score": 10,
+   "flows": [
+    "F1",
+    "F2",
+    "F3"
+   ],
+   "why": "Signs every JWT, and falls back to a hardcoded secret if JWT_SECRET is unset.",
+   "risk_if_broken": "Anyone can forge tokens and take over any account.",
+   "sources": [
+    "calibrate",
+    "map"
+   ]
+  },
+  {
+   "id": "C2",
+   "symbol": "S9emrl",
+   "key": "src/app/routes/auth/auth.service.ts::login",
+   "name": "login",
+   "file": "src/app/routes/auth/auth.service.ts",
+   "line": 84,
+   "kind": "auth_gate",
+   "score": 10,
+   "flows": [
+    "F1"
+   ],
+   "why": "The single point where credentials are checked with bcrypt before a token is issued.",
+   "risk_if_broken": "Either every user is locked out, or anyone can log in without a valid password.",
+   "sources": [
+    "calibrate",
+    "map"
+   ]
+  },
+  {
+   "id": "C3",
+   "symbol": "Seetb9",
+   "key": "src/app/routes/auth/auth.ts::getTokenFromHeaders",
+   "name": "getTokenFromHeaders",
+   "file": "src/app/routes/auth/auth.ts",
+   "line": 4,
+   "kind": "auth_gate",
+   "score": 9,
+   "flows": [
+    "F1",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7"
+   ],
+   "why": "Pulls the token out of the request for every route guarded by auth.required or auth.optional.",
+   "risk_if_broken": "Requests run with the wrong identity, or every authenticated request fails.",
+   "sources": [
+    "calibrate",
+    "map"
+   ]
+  },
+  {
+   "id": "C4",
+   "symbol": "Smh9w0",
+   "key": "src/app/routes/auth/auth.service.ts::createUser",
+   "name": "createUser",
+   "file": "src/app/routes/auth/auth.service.ts",
+   "line": 38,
+   "kind": "persistence",
+   "score": 9,
+   "flows": [
+    "F2",
+    "F9"
+   ],
+   "why": "Hashes the password and saves the user. Registration and seeding both go through it.",
+   "risk_if_broken": "Passwords are stored in plaintext or wrongly, or invalid accounts are created.",
+   "sources": [
+    "calibrate",
+    "map"
+   ]
+  },
+  {
+   "id": "C5",
+   "symbol": "Spkhg5",
+   "key": "src/app/routes/article/article.service.ts::updateArticle",
+   "name": "updateArticle",
+   "file": "src/app/routes/article/article.service.ts",
+   "line": 289,
+   "kind": "state_transition",
+   "score": 9,
+   "flows": [
+    "F4"
+   ],
+   "why": "Checks ownership, regenerates the slug and resets tags without a transaction.",
+   "risk_if_broken": "Users can edit other users' articles, or tags are lost.",
+   "sources": [
+    "calibrate",
+    "map"
+   ]
+  },
+  {
+   "id": "C6",
+   "symbol": "Slpnnl",
+   "key": "src/app/routes/article/article.service.ts::deleteArticle",
+   "name": "deleteArticle",
+   "file": "src/app/routes/article/article.service.ts",
+   "line": 385,
+   "kind": "auth_gate",
+   "score": 9,
+   "flows": [
+    "F4"
+   ],
+   "why": "The ownership check that guards article deletion.",
+   "risk_if_broken": "Users can delete any article.",
+   "sources": [
+    "calibrate",
+    "map"
+   ]
+  },
+  {
+   "id": "C7",
+   "symbol": "Sl6k8v",
+   "key": "src/app/routes/article/article.service.ts::deleteComment",
+   "name": "deleteComment",
+   "file": "src/app/routes/article/article.service.ts",
+   "line": 527,
+   "kind": "auth_gate",
+   "score": 9,
+   "flows": [
+    "F5"
+   ],
+   "why": "The comment ownership check. It filters by author and ignores the slug.",
+   "risk_if_broken": "Users can delete other people's comments.",
+   "sources": [
+    "calibrate",
+    "map"
+   ]
+  }
+ ],
+ "files": [
+  {
+   "path": "src/app/routes/auth/auth.service.ts",
+   "language": "typescript",
+   "lines": 183,
+   "score": 10,
+   "summary": "Core auth business logic: user creation, login, uniqueness checks, and password hashing. Critical for identity and account integrity.",
+   "methods": 5,
+   "max_method_score": 10,
+   "mean_top3": 9.0,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/auth/token.utils.ts",
+   "language": "typescript",
+   "lines": 8,
+   "score": 10,
+   "summary": "JWT signing with hardcoded secret fallback. Generates every token issued to clients for authentication.",
+   "methods": 1,
+   "max_method_score": 10,
+   "mean_top3": 10.0,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/auth/auth.ts",
+   "language": "typescript",
+   "lines": 28,
+   "score": 10,
+   "summary": "JWT extraction and middleware configuration. Guards every protected route with token validation and fallback secret.",
+   "methods": 1,
+   "max_method_score": 9,
+   "mean_top3": 9.0,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/article/article.service.ts",
+   "language": "typescript",
+   "lines": 652,
+   "score": 8,
+   "summary": "Article and comment business logic: visibility rules, ownership checks, slug generation, tag management.",
+   "methods": 13,
+   "max_method_score": 9,
+   "mean_top3": 9.0,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/auth/auth.controller.ts",
+   "language": "typescript",
+   "lines": 70,
+   "score": 8,
+   "summary": "HTTP handlers for login, registration, and user profile. Entry points for F1, F2, F3 flows with delegation to service layer.",
+   "methods": 4,
+   "max_method_score": 8,
+   "mean_top3": 7.0,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/article/article.mapper.ts",
+   "language": "typescript",
+   "lines": 16,
+   "score": 6,
+   "summary": "Transforms Prisma article data to API response format, computing favorited flag and flattening tags.",
+   "methods": 1,
+   "max_method_score": 6,
+   "mean_top3": 6.0,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/profile/profile.controller.ts",
+   "language": "typescript",
+   "lines": 67,
+   "score": 6,
+   "summary": "HTTP handlers for profile read and follow operations. Delegates to profile service.",
+   "methods": 3,
+   "max_method_score": 6,
+   "mean_top3": 6.0,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/article/article.controller.ts",
+   "language": "typescript",
+   "lines": 243,
+   "score": 6,
+   "summary": "Route handlers for article CRUD, comments, and favorites. Pass-throughs to service methods.",
+   "methods": 11,
+   "max_method_score": 5,
+   "mean_top3": 5.0,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/main.ts",
+   "language": "typescript",
+   "lines": 57,
+   "score": 6,
+   "summary": "Express app setup, error middleware, and server startup. Routes all requests and handles errors.",
+   "methods": 3,
+   "max_method_score": 5,
+   "mean_top3": 2.67,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm+clamped"
+  },
+  {
+   "path": "src/app/routes/article/author.mapper.ts",
+   "language": "typescript",
+   "lines": 12,
+   "score": 5,
+   "summary": "Transforms author object to API response format, computing the following flag.",
+   "methods": 1,
+   "max_method_score": 5,
+   "mean_top3": 5.0,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/profile/profile.service.ts",
+   "language": "typescript",
+   "lines": 60,
+   "score": 5,
+   "summary": "Profile queries and follow operations. Reads user and manages follow relationships.",
+   "methods": 3,
+   "max_method_score": 5,
+   "mean_top3": 5.0,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/profile/profile.utils.ts",
+   "language": "typescript",
+   "lines": 13,
+   "score": 5,
+   "summary": "Profile response mapper. Computes following flag and shapes profile output.",
+   "methods": 1,
+   "max_method_score": 5,
+   "mean_top3": 5.0,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/models/http-exception.model.ts",
+   "language": "typescript",
+   "lines": 12,
+   "score": 5,
+   "summary": "HTTP error wrapper that carries status code and error payload to all exception handlers.",
+   "methods": 1,
+   "max_method_score": 4,
+   "mean_top3": 4.0,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm+clamped"
+  },
+  {
+   "path": "src/prisma/seed.ts",
+   "language": "typescript",
+   "lines": 66,
+   "score": 4,
+   "summary": "Database seeding with generated demo users, articles, and comments. Creates initial content for F9.",
+   "methods": 6,
+   "max_method_score": 4,
+   "mean_top3": 4.0,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/tag/tag.controller.ts",
+   "language": "typescript",
+   "lines": 22,
+   "score": 3,
+   "summary": "HTTP handler for tag listing. Low-impact sidebar feature endpoint.",
+   "methods": 1,
+   "max_method_score": 3,
+   "mean_top3": 3.0,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/tag/tag.service.ts",
+   "language": "typescript",
+   "lines": 40,
+   "score": 3,
+   "summary": "Retrieves top 10 popular tags filtered by demo and user. Low-impact read for sidebar.",
+   "methods": 1,
+   "max_method_score": 3,
+   "mean_top3": 3.0,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/prisma/prisma-client.ts",
+   "language": "typescript",
+   "lines": 23,
+   "score": 3,
+   "summary": "Prisma client singleton initialization. Configuration plumbing for database access.",
+   "methods": 0,
+   "max_method_score": null,
+   "mean_top3": null,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/article/article.model.ts",
+   "language": "typescript",
+   "lines": 10,
+   "score": 2,
+   "summary": "TypeScript interface definition for Article type.",
+   "methods": 0,
+   "max_method_score": null,
+   "mean_top3": null,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/article/comment.model.ts",
+   "language": "typescript",
+   "lines": 9,
+   "score": 2,
+   "summary": "Comment interface definition. Type definition for comment domain model used by comment endpoints.",
+   "methods": 0,
+   "max_method_score": null,
+   "mean_top3": null,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/auth/register-input.model.ts",
+   "language": "typescript",
+   "lines": 8,
+   "score": 2,
+   "summary": "RegisterInput interface definition. Input type for user registration endpoint.",
+   "methods": 0,
+   "max_method_score": null,
+   "mean_top3": null,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/auth/registered-user.model.ts",
+   "language": "typescript",
+   "lines": 8,
+   "score": 2,
+   "summary": "RegisteredUser response interface. Output type for successful auth operations.",
+   "methods": 0,
+   "max_method_score": null,
+   "mean_top3": null,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/auth/user.model.ts",
+   "language": "typescript",
+   "lines": 17,
+   "score": 2,
+   "summary": "User entity interface definition. Domain model for user with relations to articles, comments, followers.",
+   "methods": 0,
+   "max_method_score": null,
+   "mean_top3": null,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/profile/profile.model.ts",
+   "language": "typescript",
+   "lines": 6,
+   "score": 2,
+   "summary": "Profile response interface. Output type for profile endpoints with following flag.",
+   "methods": 0,
+   "max_method_score": null,
+   "mean_top3": null,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/routes.ts",
+   "language": "typescript",
+   "lines": 13,
+   "score": 2,
+   "summary": "Router aggregation. Combines all feature controllers under /api prefix.",
+   "methods": 0,
+   "max_method_score": null,
+   "mean_top3": null,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "src/app/routes/tag/tag.model.ts",
+   "language": "typescript",
+   "lines": 3,
+   "score": 2,
+   "summary": "Tag interface definition. Simple model for tag name.",
+   "methods": 0,
+   "max_method_score": null,
+   "mean_top3": null,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  },
+  {
+   "path": "jest.preset.js",
+   "language": "javascript",
+   "lines": 3,
+   "score": 1,
+   "summary": "Jest configuration preset that re-exports @nx/jest/preset for test runner setup.",
+   "methods": 0,
+   "max_method_score": null,
+   "mean_top3": null,
+   "churn": 0,
+   "fix_churn": 0,
+   "extractor": "tree-sitter",
+   "score_source": "llm"
+  }
+ ],
+ "method_analysis": [
+  {
+   "id": "S9emrl",
+   "key": "src/app/routes/auth/auth.service.ts::login",
+   "file": "src/app/routes/auth/auth.service.ts",
+   "name": "login",
+   "qualified_name": "login",
+   "kind": "function",
+   "start_line": 84,
+   "end_line": 129,
+   "score": 10,
+   "role": "business_rule",
+   "flows": [
+    "F1"
+   ],
+   "why": "Verifies credentials with bcrypt and issues JWT. Owns the single point where login can fail or grant access.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": true,
+   "static": {
+    "fan_in": 2,
+    "fan_in_files": 1,
+    "loc": 46,
+    "complexity": 4,
+    "tags": [
+     "db",
+     "auth"
+    ],
+    "flow_reach": {
+     "F1": 0
+    },
+    "trivial": null,
+    "priority": 6.256
+   }
+  },
+  {
+   "id": "S1zvyg",
+   "key": "src/app/routes/auth/token.utils.ts::generateToken",
+   "file": "src/app/routes/auth/token.utils.ts",
+   "name": "generateToken",
+   "qualified_name": "generateToken",
+   "kind": "function",
+   "start_line": 3,
+   "end_line": 6,
+   "score": 10,
+   "role": "security",
+   "flows": [
+    "F1",
+    "F2",
+    "F3"
+   ],
+   "why": "Signs JWTs with secret or fallback. Token integrity failure disables all subsequent auth in F1, F2, F3.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": true,
+   "static": {
+    "fan_in": 5,
+    "fan_in_files": 1,
+    "loc": 4,
+    "complexity": 1,
+    "tags": [
+     "auth"
+    ],
+    "flow_reach": {
+     "F1": 0,
+     "F2": 0,
+     "F3": 0,
+     "F9": 1
+    },
+    "trivial": null,
+    "priority": 7.32
+   }
+  },
+  {
+   "id": "Spkhg5",
+   "key": "src/app/routes/article/article.service.ts::updateArticle",
+   "file": "src/app/routes/article/article.service.ts",
+   "name": "updateArticle",
+   "qualified_name": "updateArticle",
+   "kind": "function",
+   "start_line": 289,
+   "end_line": 383,
+   "score": 9,
+   "role": "business_rule",
+   "flows": [
+    "F4"
+   ],
+   "why": "Ownership check, slug regeneration, tag reset/update. Wrong logic lets users edit others' articles.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": true,
+   "static": {
+    "fan_in": 2,
+    "fan_in_files": 1,
+    "loc": 95,
+    "complexity": 6,
+    "tags": [
+     "db"
+    ],
+    "flow_reach": {
+     "F4": 0
+    },
+    "trivial": null,
+    "priority": 4.557
+   }
+  },
+  {
+   "id": "Slpnnl",
+   "key": "src/app/routes/article/article.service.ts::deleteArticle",
+   "file": "src/app/routes/article/article.service.ts",
+   "name": "deleteArticle",
+   "qualified_name": "deleteArticle",
+   "kind": "function",
+   "start_line": 385,
+   "end_line": 414,
+   "score": 9,
+   "role": "security",
+   "flows": [
+    "F4"
+   ],
+   "why": "Ownership check before deletion. Absence lets users delete others' articles.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": true,
+   "static": {
+    "fan_in": 2,
+    "fan_in_files": 1,
+    "loc": 30,
+    "complexity": 2,
+    "tags": [
+     "db"
+    ],
+    "flow_reach": {
+     "F4": 0
+    },
+    "trivial": null,
+    "priority": 4.302
+   }
+  },
+  {
+   "id": "Sl6k8v",
+   "key": "src/app/routes/article/article.service.ts::deleteComment",
+   "file": "src/app/routes/article/article.service.ts",
+   "name": "deleteComment",
+   "qualified_name": "deleteComment",
+   "kind": "function",
+   "start_line": 527,
+   "end_line": 560,
+   "score": 9,
+   "role": "security",
+   "flows": [
+    "F5"
+   ],
+   "why": "Ownership check before comment deletion. Absence lets users delete others' comments.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": true,
+   "static": {
+    "fan_in": 2,
+    "fan_in_files": 1,
+    "loc": 34,
+    "complexity": 2,
+    "tags": [
+     "db"
+    ],
+    "flow_reach": {
+     "F5": 0
+    },
+    "trivial": null,
+    "priority": 4.302
+   }
+  },
+  {
+   "id": "Smh9w0",
+   "key": "src/app/routes/auth/auth.service.ts::createUser",
+   "file": "src/app/routes/auth/auth.service.ts",
+   "name": "createUser",
+   "qualified_name": "createUser",
+   "kind": "function",
+   "start_line": 38,
+   "end_line": 82,
+   "score": 9,
+   "role": "persistence",
+   "flows": [
+    "F2",
+    "F9"
+   ],
+   "why": "Creates user with validated input, hashed password, and uniqueness check. Core transaction for account creation.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": true,
+   "static": {
+    "fan_in": 4,
+    "fan_in_files": 2,
+    "loc": 45,
+    "complexity": 3,
+    "tags": [
+     "auth"
+    ],
+    "flow_reach": {
+     "F2": 0,
+     "F9": 0
+    },
+    "trivial": null,
+    "priority": 6.56
+   },
+   "calibrated_from": 10,
+   "calibration_reason": "Core user persistence; signing and login hold the true 10s"
+  },
+  {
+   "id": "Seetb9",
+   "key": "src/app/routes/auth/auth.ts::getTokenFromHeaders",
+   "file": "src/app/routes/auth/auth.ts",
+   "name": "getTokenFromHeaders",
+   "qualified_name": "getTokenFromHeaders",
+   "kind": "function",
+   "start_line": 4,
+   "end_line": 12,
+   "score": 9,
+   "role": "security",
+   "flows": [
+    "F1",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7"
+   ],
+   "why": "Extracts JWT from request headers. Used by auth.required/optional middleware on every protected flow.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": true,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 9,
+    "complexity": 4,
+    "tags": [
+     "auth"
+    ],
+    "flow_reach": {
+     "F1": 0,
+     "F3": 0,
+     "F4": 0,
+     "F5": 0,
+     "F6": 0,
+     "F7": 0
+    },
+    "trivial": null,
+    "priority": 2.283
+   }
+  },
+  {
+   "id": "S8gmle",
+   "key": "src/app/routes/article/article.service.ts::buildFindAllQuery",
+   "file": "src/app/routes/article/article.service.ts",
+   "name": "buildFindAllQuery",
+   "qualified_name": "buildFindAllQuery",
+   "kind": "function",
+   "start_line": 8,
+   "end_line": 67,
+   "score": 8,
+   "role": "business_rule",
+   "flows": [
+    "F6"
+   ],
+   "why": "Encodes visibility rule (demo or own authors). Wrong logic leaks hidden articles or hides public ones.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 1,
+    "fan_in_files": 0,
+    "loc": 60,
+    "complexity": 4,
+    "tags": [],
+    "flow_reach": {
+     "F6": 0
+    },
+    "trivial": null,
+    "priority": 2.354
+   }
+  },
+  {
+   "id": "Sk4ypw",
+   "key": "src/app/routes/article/article.service.ts::createArticle",
+   "file": "src/app/routes/article/article.service.ts",
+   "name": "createArticle",
+   "qualified_name": "createArticle",
+   "kind": "function",
+   "start_line": 162,
+   "end_line": 239,
+   "score": 8,
+   "role": "persistence",
+   "flows": [
+    "F4",
+    "F9"
+   ],
+   "why": "Validates input, generates unique slug, creates article with tags. Wrong logic creates duplicates or invalid articles.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 4,
+    "fan_in_files": 2,
+    "loc": 78,
+    "complexity": 4,
+    "tags": [
+     "db"
+    ],
+    "flow_reach": {
+     "F4": 0,
+     "F9": 0
+    },
+    "trivial": null,
+    "priority": 5.627
+   },
+   "calibrated_from": 9,
+   "calibration_reason": "Persistence of core entity; no auth gate inside"
+  },
+  {
+   "id": "Sdf04w",
+   "key": "src/app/routes/auth/auth.controller.ts::router.post('/users/login')",
+   "file": "src/app/routes/auth/auth.controller.ts",
+   "name": "router.post('/users/login')",
+   "qualified_name": "router.post('/users/login')",
+   "kind": "function",
+   "start_line": 30,
+   "end_line": 37,
+   "score": 8,
+   "role": "entry",
+   "flows": [
+    "F1"
+   ],
+   "why": "Entry point for login. Delegates to login but is the HTTP door for F1.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [
+     "auth"
+    ],
+    "flow_reach": {
+     "F1": 0
+    },
+    "trivial": null,
+    "priority": 5.34
+   },
+   "calibrated_from": 7,
+   "calibration_reason": "Pass-through door to login, one below callee"
+  },
+  {
+   "id": "S2e38y",
+   "key": "src/app/routes/auth/auth.service.ts::checkUserUniqueness",
+   "file": "src/app/routes/auth/auth.service.ts",
+   "name": "checkUserUniqueness",
+   "qualified_name": "checkUserUniqueness",
+   "kind": "function",
+   "start_line": 9,
+   "end_line": 36,
+   "score": 8,
+   "role": "validation",
+   "flows": [
+    "F2"
+   ],
+   "why": "Enforces email and username uniqueness before user creation. Duplicate prevention is the crux guard for F2.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 1,
+    "fan_in_files": 0,
+    "loc": 28,
+    "complexity": 2,
+    "tags": [
+     "db"
+    ],
+    "flow_reach": {
+     "F2": 0,
+     "F9": 1
+    },
+    "trivial": null,
+    "priority": 4.001
+   },
+   "calibrated_from": 9,
+   "calibration_reason": "Validation guarding a write; DB constraints likely backstop it"
+  },
+  {
+   "id": "Shluxz",
+   "key": "src/app/routes/auth/auth.service.ts::updateUser",
+   "file": "src/app/routes/auth/auth.service.ts",
+   "name": "updateUser",
+   "qualified_name": "updateUser",
+   "kind": "function",
+   "start_line": 151,
+   "end_line": 183,
+   "score": 8,
+   "role": "persistence",
+   "flows": [
+    "F3"
+   ],
+   "why": "Updates email, username, password without uniqueness check. Can corrupt accounts if email already taken elsewhere.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 2,
+    "fan_in_files": 1,
+    "loc": 33,
+    "complexity": 1,
+    "tags": [
+     "auth"
+    ],
+    "flow_reach": {
+     "F3": 0
+    },
+    "trivial": null,
+    "priority": 5.181
+   }
+  },
+  {
+   "id": "So7r9o",
+   "key": "src/app/routes/auth/auth.controller.ts::router.post('/users')",
+   "file": "src/app/routes/auth/auth.controller.ts",
+   "name": "router.post('/users')",
+   "qualified_name": "router.post('/users')",
+   "kind": "function",
+   "start_line": 14,
+   "end_line": 21,
+   "score": 7,
+   "role": "entry",
+   "flows": [
+    "F2"
+   ],
+   "why": "Entry point for user registration. Delegates to createUser but is the HTTP door for F2.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F2": 0
+    },
+    "trivial": null,
+    "priority": 4.04
+   }
+  },
+  {
+   "id": "Scmiua",
+   "key": "src/app/routes/article/article.mapper.ts::articleMapper",
+   "file": "src/app/routes/article/article.mapper.ts",
+   "name": "articleMapper",
+   "qualified_name": "articleMapper",
+   "kind": "function",
+   "start_line": 3,
+   "end_line": 14,
+   "score": 6,
+   "role": "transformation",
+   "flows": [
+    "F4",
+    "F6"
+   ],
+   "why": "Used by all article responses. A bug in computed fields (favorited flag, tagList map) corrupts API output.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 6,
+    "fan_in_files": 1,
+    "loc": 12,
+    "complexity": 0,
+    "tags": [],
+    "flow_reach": {
+     "F4": 0,
+     "F6": 0,
+     "F9": 1
+    },
+    "trivial": null,
+    "priority": 5.762
+   }
+  },
+  {
+   "id": "Sba6ff",
+   "key": "src/app/routes/article/article.service.ts::getArticles",
+   "file": "src/app/routes/article/article.service.ts",
+   "name": "getArticles",
+   "qualified_name": "getArticles",
+   "kind": "function",
+   "start_line": 69,
+   "end_line": 111,
+   "score": 6,
+   "role": "orchestration",
+   "flows": [
+    "F6"
+   ],
+   "why": "Uses buildFindAllQuery to list articles. Defect would break browsing; logic lives in query builder.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 2,
+    "fan_in_files": 1,
+    "loc": 43,
+    "complexity": 2,
+    "tags": [
+     "db"
+    ],
+    "flow_reach": {
+     "F6": 0
+    },
+    "trivial": null,
+    "priority": 4.302
+   }
+  },
+  {
+   "id": "Srpg6m",
+   "key": "src/app/routes/article/article.service.ts::getFeed",
+   "file": "src/app/routes/article/article.service.ts",
+   "name": "getFeed",
+   "qualified_name": "getFeed",
+   "kind": "function",
+   "start_line": 113,
+   "end_line": 160,
+   "score": 6,
+   "role": "orchestration",
+   "flows": [
+    "F6"
+   ],
+   "why": "Reads feed for followed authors. A bug breaks personalized feed; read-only operation.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 2,
+    "fan_in_files": 1,
+    "loc": 48,
+    "complexity": 2,
+    "tags": [
+     "db"
+    ],
+    "flow_reach": {
+     "F6": 0
+    },
+    "trivial": null,
+    "priority": 4.302
+   }
+  },
+  {
+   "id": "So1qux",
+   "key": "src/app/routes/article/article.service.ts::getArticle",
+   "file": "src/app/routes/article/article.service.ts",
+   "name": "getArticle",
+   "qualified_name": "getArticle",
+   "kind": "function",
+   "start_line": 241,
+   "end_line": 274,
+   "score": 6,
+   "role": "accessor",
+   "flows": [
+    "F6"
+   ],
+   "why": "Fetches single article. Defect would break article view; read-only query.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 2,
+    "fan_in_files": 1,
+    "loc": 34,
+    "complexity": 1,
+    "tags": [
+     "db"
+    ],
+    "flow_reach": {
+     "F6": 0
+    },
+    "trivial": null,
+    "priority": 4.181
+   }
+  },
+  {
+   "id": "Shzirt",
+   "key": "src/app/routes/article/article.service.ts::disconnectArticlesTags",
+   "file": "src/app/routes/article/article.service.ts",
+   "name": "disconnectArticlesTags",
+   "qualified_name": "disconnectArticlesTags",
+   "kind": "function",
+   "start_line": 276,
+   "end_line": 287,
+   "score": 6,
+   "role": "persistence",
+   "flows": [
+    "F4"
+   ],
+   "why": "Clears tags before update. A bug loses tag associations; used only during article update.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 1,
+    "fan_in_files": 0,
+    "loc": 12,
+    "complexity": 0,
+    "tags": [],
+    "flow_reach": {
+     "F4": 0
+    },
+    "trivial": null,
+    "priority": 1.871
+   },
+   "calibrated_from": 4,
+   "calibration_reason": "Non-transactional tag wipe on article update path"
+  },
+  {
+   "id": "Sw403r",
+   "key": "src/app/routes/article/article.service.ts::getCommentsByArticle",
+   "file": "src/app/routes/article/article.service.ts",
+   "name": "getCommentsByArticle",
+   "qualified_name": "getCommentsByArticle",
+   "kind": "function",
+   "start_line": 416,
+   "end_line": 471,
+   "score": 6,
+   "role": "accessor",
+   "flows": [
+    "F5"
+   ],
+   "why": "Fetches comments with author visibility rule. Defect leaks hidden comments; read-only.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 2,
+    "fan_in_files": 1,
+    "loc": 56,
+    "complexity": 1,
+    "tags": [
+     "db"
+    ],
+    "flow_reach": {
+     "F5": 0
+    },
+    "trivial": null,
+    "priority": 4.181
+   }
+  },
+  {
+   "id": "Spdlmn",
+   "key": "src/app/routes/article/article.service.ts::addComment",
+   "file": "src/app/routes/article/article.service.ts",
+   "name": "addComment",
+   "qualified_name": "addComment",
+   "kind": "function",
+   "start_line": 473,
+   "end_line": 525,
+   "score": 6,
+   "role": "persistence",
+   "flows": [
+    "F5",
+    "F9"
+   ],
+   "why": "Creates comment without checking article exists. Wrong input validation corrupts article associations.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 4,
+    "fan_in_files": 2,
+    "loc": 53,
+    "complexity": 1,
+    "tags": [
+     "db"
+    ],
+    "flow_reach": {
+     "F5": 0,
+     "F9": 0
+    },
+    "trivial": null,
+    "priority": 5.352
+   },
+   "calibrated_from": 8,
+   "calibration_reason": "Core write of secondary comments flow"
+  },
+  {
+   "id": "Sq95rv",
+   "key": "src/app/routes/article/article.service.ts::favoriteArticle",
+   "file": "src/app/routes/article/article.service.ts",
+   "name": "favoriteArticle",
+   "qualified_name": "favoriteArticle",
+   "kind": "function",
+   "start_line": 562,
+   "end_line": 606,
+   "score": 6,
+   "role": "persistence",
+   "flows": [
+    "F7"
+   ],
+   "why": "Adds user to favoritedBy relation. Logic is straightforward; only updates one field.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 2,
+    "fan_in_files": 1,
+    "loc": 45,
+    "complexity": 0,
+    "tags": [],
+    "flow_reach": {
+     "F7": 0
+    },
+    "trivial": null,
+    "priority": 3.173
+   }
+  },
+  {
+   "id": "Skbbnk",
+   "key": "src/app/routes/article/article.service.ts::unfavoriteArticle",
+   "file": "src/app/routes/article/article.service.ts",
+   "name": "unfavoriteArticle",
+   "qualified_name": "unfavoriteArticle",
+   "kind": "function",
+   "start_line": 608,
+   "end_line": 652,
+   "score": 6,
+   "role": "persistence",
+   "flows": [
+    "F7"
+   ],
+   "why": "Removes user from favoritedBy relation. Logic is straightforward; only updates one field.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 2,
+    "fan_in_files": 1,
+    "loc": 45,
+    "complexity": 0,
+    "tags": [],
+    "flow_reach": {
+     "F7": 0
+    },
+    "trivial": null,
+    "priority": 3.173
+   }
+  },
+  {
+   "id": "S9l9as",
+   "key": "src/app/routes/auth/auth.controller.ts::router.put('/user')",
+   "file": "src/app/routes/auth/auth.controller.ts",
+   "name": "router.put('/user')",
+   "qualified_name": "router.put('/user')",
+   "kind": "function",
+   "start_line": 61,
+   "end_line": 68,
+   "score": 6,
+   "role": "entry",
+   "flows": [
+    "F3"
+   ],
+   "why": "Entry point for updating user profile. Delegates to updateUser but is the HTTP door for F3.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F3": 0
+    },
+    "trivial": null,
+    "priority": 4.04
+   },
+   "calibrated_from": 7,
+   "calibration_reason": "Pass-through to updateUser"
+  },
+  {
+   "id": "Sftth1",
+   "key": "src/app/routes/auth/auth.service.ts::getCurrentUser",
+   "file": "src/app/routes/auth/auth.service.ts",
+   "name": "getCurrentUser",
+   "qualified_name": "getCurrentUser",
+   "kind": "function",
+   "start_line": 131,
+   "end_line": 149,
+   "score": 6,
+   "role": "accessor",
+   "flows": [
+    "F3"
+   ],
+   "why": "Reads current user from DB and attaches token. Read-only on critical flow but no guard logic of its own.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 2,
+    "fan_in_files": 1,
+    "loc": 19,
+    "complexity": 0,
+    "tags": [
+     "db",
+     "auth"
+    ],
+    "flow_reach": {
+     "F3": 0
+    },
+    "trivial": null,
+    "priority": 5.773
+   }
+  },
+  {
+   "id": "Snfte1",
+   "key": "src/app/routes/profile/profile.controller.ts::router.get('/profiles/:username')",
+   "file": "src/app/routes/profile/profile.controller.ts",
+   "name": "router.get('/profiles/:username')",
+   "qualified_name": "router.get('/profiles/:username')",
+   "kind": "function",
+   "start_line": 17,
+   "end_line": 24,
+   "score": 6,
+   "role": "entry",
+   "flows": [
+    "F7"
+   ],
+   "why": "Entry point for reading profile. Delegates but is the HTTP door for F7 profile read.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F7": 0
+    },
+    "trivial": null,
+    "priority": 3.54
+   }
+  },
+  {
+   "id": "Svit2v",
+   "key": "src/app/routes/profile/profile.controller.ts::router.post('/profiles/:username/follow')",
+   "file": "src/app/routes/profile/profile.controller.ts",
+   "name": "router.post('/profiles/:username/follow')",
+   "qualified_name": "router.post('/profiles/:username/follow')",
+   "kind": "function",
+   "start_line": 37,
+   "end_line": 44,
+   "score": 6,
+   "role": "entry",
+   "flows": [
+    "F7"
+   ],
+   "why": "Entry point for follow action. Delegates but is the HTTP door for F7 follow operation.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F7": 0
+    },
+    "trivial": null,
+    "priority": 3.54
+   }
+  },
+  {
+   "id": "S1zlgv",
+   "key": "src/app/routes/profile/profile.controller.ts::router.delete('/profiles/:username/follow')",
+   "file": "src/app/routes/profile/profile.controller.ts",
+   "name": "router.delete('/profiles/:username/follow')",
+   "qualified_name": "router.delete('/profiles/:username/follow')",
+   "kind": "function",
+   "start_line": 57,
+   "end_line": 64,
+   "score": 6,
+   "role": "entry",
+   "flows": [
+    "F7"
+   ],
+   "why": "Entry point for unfollow action. Delegates but is the HTTP door for F7 unfollow operation.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F7": 0
+    },
+    "trivial": null,
+    "priority": 3.54
+   }
+  },
+  {
+   "id": "S10duf",
+   "key": "src/app/routes/article/article.controller.ts::router.get('/articles')",
+   "file": "src/app/routes/article/article.controller.ts",
+   "name": "router.get('/articles')",
+   "qualified_name": "router.get('/articles')",
+   "kind": "function",
+   "start_line": 30,
+   "end_line": 37,
+   "score": 5,
+   "role": "entry",
+   "flows": [
+    "F6"
+   ],
+   "why": "Entry point for article listing. Delegates to getArticles; error handling is generic.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F6": 0
+    },
+    "trivial": null,
+    "priority": 3.04
+   }
+  },
+  {
+   "id": "Ssx2ji",
+   "key": "src/app/routes/article/article.controller.ts::router.get('/articles/feed')",
+   "file": "src/app/routes/article/article.controller.ts",
+   "name": "router.get('/articles/feed')",
+   "qualified_name": "router.get('/articles/feed')",
+   "kind": "function",
+   "start_line": 48,
+   "end_line": 59,
+   "score": 5,
+   "role": "entry",
+   "flows": [
+    "F6"
+   ],
+   "why": "Entry point for user feed. Delegates to getFeed; minimal logic of its own.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 12,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F6": 0
+    },
+    "trivial": null,
+    "priority": 3.04
+   }
+  },
+  {
+   "id": "Sr30e3",
+   "key": "src/app/routes/article/article.controller.ts::router.post('/articles')",
+   "file": "src/app/routes/article/article.controller.ts",
+   "name": "router.post('/articles')",
+   "qualified_name": "router.post('/articles')",
+   "kind": "function",
+   "start_line": 71,
+   "end_line": 78,
+   "score": 5,
+   "role": "entry",
+   "flows": [
+    "F4"
+   ],
+   "why": "Entry point for article creation. Delegates to createArticle; no validation here.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F4": 0
+    },
+    "trivial": null,
+    "priority": 3.04
+   }
+  },
+  {
+   "id": "Srrynd",
+   "key": "src/app/routes/article/article.controller.ts::router.get('/articles/:slug')",
+   "file": "src/app/routes/article/article.controller.ts",
+   "name": "router.get('/articles/:slug')",
+   "qualified_name": "router.get('/articles/:slug')",
+   "kind": "function",
+   "start_line": 90,
+   "end_line": 97,
+   "score": 5,
+   "role": "entry",
+   "flows": [
+    "F6"
+   ],
+   "why": "Entry point for single article read. Delegates to getArticle; no logic of its own.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F6": 0
+    },
+    "trivial": null,
+    "priority": 3.04
+   }
+  },
+  {
+   "id": "Smgaxl",
+   "key": "src/app/routes/article/article.controller.ts::router.put('/articles/:slug')",
+   "file": "src/app/routes/article/article.controller.ts",
+   "name": "router.put('/articles/:slug')",
+   "qualified_name": "router.put('/articles/:slug')",
+   "kind": "function",
+   "start_line": 113,
+   "end_line": 120,
+   "score": 5,
+   "role": "entry",
+   "flows": [
+    "F4"
+   ],
+   "why": "Entry point for article update. Delegates to updateArticle; no authorization here.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F4": 0
+    },
+    "trivial": null,
+    "priority": 3.04
+   }
+  },
+  {
+   "id": "Stvieo",
+   "key": "src/app/routes/article/article.controller.ts::router.delete('/articles/:slug')",
+   "file": "src/app/routes/article/article.controller.ts",
+   "name": "router.delete('/articles/:slug')",
+   "qualified_name": "router.delete('/articles/:slug')",
+   "kind": "function",
+   "start_line": 132,
+   "end_line": 139,
+   "score": 5,
+   "role": "entry",
+   "flows": [
+    "F4"
+   ],
+   "why": "Entry point for article deletion. Delegates to deleteArticle; no auth check here.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F4": 0
+    },
+    "trivial": null,
+    "priority": 3.04
+   }
+  },
+  {
+   "id": "Sz5l3t",
+   "key": "src/app/routes/article/article.controller.ts::router.get('/articles/:slug/comments')",
+   "file": "src/app/routes/article/article.controller.ts",
+   "name": "router.get('/articles/:slug/comments')",
+   "qualified_name": "router.get('/articles/:slug/comments')",
+   "kind": "function",
+   "start_line": 152,
+   "end_line": 159,
+   "score": 5,
+   "role": "entry",
+   "flows": [
+    "F5"
+   ],
+   "why": "Entry point for comment listing. Delegates to getCommentsByArticle; minimal logic.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F5": 0
+    },
+    "trivial": null,
+    "priority": 3.04
+   }
+  },
+  {
+   "id": "Sbqv1h",
+   "key": "src/app/routes/article/article.controller.ts::router.post('/articles/:slug/comments')",
+   "file": "src/app/routes/article/article.controller.ts",
+   "name": "router.post('/articles/:slug/comments')",
+   "qualified_name": "router.post('/articles/:slug/comments')",
+   "kind": "function",
+   "start_line": 173,
+   "end_line": 180,
+   "score": 5,
+   "role": "entry",
+   "flows": [
+    "F5"
+   ],
+   "why": "Entry point for comment creation. Delegates to addComment; no validation here.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F5": 0
+    },
+    "trivial": null,
+    "priority": 3.04
+   }
+  },
+  {
+   "id": "Sip44b",
+   "key": "src/app/routes/article/article.controller.ts::router.delete('/articles/:slug/comments/:id')",
+   "file": "src/app/routes/article/article.controller.ts",
+   "name": "router.delete('/articles/:slug/comments/:id')",
+   "qualified_name": "router.delete('/articles/:slug/comments/:id')",
+   "kind": "function",
+   "start_line": 193,
+   "end_line": 200,
+   "score": 5,
+   "role": "entry",
+   "flows": [
+    "F5"
+   ],
+   "why": "Entry point for comment deletion. Delegates to deleteComment; no auth check here.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F5": 0
+    },
+    "trivial": null,
+    "priority": 3.04
+   }
+  },
+  {
+   "id": "S312mh",
+   "key": "src/app/routes/article/article.controller.ts::router.post('/articles/:slug/favorite')",
+   "file": "src/app/routes/article/article.controller.ts",
+   "name": "router.post('/articles/:slug/favorite')",
+   "qualified_name": "router.post('/articles/:slug/favorite')",
+   "kind": "function",
+   "start_line": 213,
+   "end_line": 220,
+   "score": 5,
+   "role": "entry",
+   "flows": [
+    "F7"
+   ],
+   "why": "Entry point for favoriting. Delegates to favoriteArticle; no logic of its own.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F7": 0
+    },
+    "trivial": null,
+    "priority": 3.04
+   }
+  },
+  {
+   "id": "Sitooa",
+   "key": "src/app/routes/article/article.controller.ts::router.delete('/articles/:slug/favorite')",
+   "file": "src/app/routes/article/article.controller.ts",
+   "name": "router.delete('/articles/:slug/favorite')",
+   "qualified_name": "router.delete('/articles/:slug/favorite')",
+   "kind": "function",
+   "start_line": 233,
+   "end_line": 240,
+   "score": 5,
+   "role": "entry",
+   "flows": [
+    "F7"
+   ],
+   "why": "Entry point for unfavoriting. Delegates to unfavoriteArticle; no validation here.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F7": 0
+    },
+    "trivial": null,
+    "priority": 3.04
+   }
+  },
+  {
+   "id": "Sicfyz",
+   "key": "src/app/routes/article/author.mapper.ts::authorMapper",
+   "file": "src/app/routes/article/author.mapper.ts",
+   "name": "authorMapper",
+   "qualified_name": "authorMapper",
+   "kind": "function",
+   "start_line": 3,
+   "end_line": 10,
+   "score": 5,
+   "role": "transformation",
+   "flows": [
+    "F4",
+    "F6"
+   ],
+   "why": "Flattens author and computes following flag. Used in article responses; a bug breaks follow status display.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 2,
+    "fan_in_files": 1,
+    "loc": 8,
+    "complexity": 0,
+    "tags": [],
+    "flow_reach": {
+     "F4": 1,
+     "F6": 0,
+     "F9": 2
+    },
+    "trivial": null,
+    "priority": 4.991
+   }
+  },
+  {
+   "id": "Sk5q2z",
+   "key": "src/app/routes/auth/auth.controller.ts::router.get('/user')",
+   "file": "src/app/routes/auth/auth.controller.ts",
+   "name": "router.get('/user')",
+   "qualified_name": "router.get('/user')",
+   "kind": "function",
+   "start_line": 45,
+   "end_line": 52,
+   "score": 5,
+   "role": "entry",
+   "flows": [
+    "F3"
+   ],
+   "why": "Entry point for getting current user. Delegates to getCurrentUser but is the HTTP door for F3.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F3": 0
+    },
+    "trivial": null,
+    "priority": 4.04
+   },
+   "calibrated_from": 7,
+   "calibration_reason": "Pass-through to read-only getCurrentUser"
+  },
+  {
+   "id": "S3i340",
+   "key": "src/app/routes/profile/profile.service.ts::getProfile",
+   "file": "src/app/routes/profile/profile.service.ts",
+   "name": "getProfile",
+   "qualified_name": "getProfile",
+   "kind": "function",
+   "start_line": 5,
+   "end_line": 20,
+   "score": 5,
+   "role": "accessor",
+   "flows": [
+    "F7"
+   ],
+   "why": "Reads user profile from DB. Read-only on F7 with no branching or validation logic.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 2,
+    "fan_in_files": 1,
+    "loc": 16,
+    "complexity": 1,
+    "tags": [
+     "db"
+    ],
+    "flow_reach": {
+     "F7": 0
+    },
+    "trivial": null,
+    "priority": 4.181
+   }
+  },
+  {
+   "id": "St29jq",
+   "key": "src/app/routes/profile/profile.service.ts::followUser",
+   "file": "src/app/routes/profile/profile.service.ts",
+   "name": "followUser",
+   "qualified_name": "followUser",
+   "kind": "function",
+   "start_line": 22,
+   "end_line": 40,
+   "score": 5,
+   "role": "persistence",
+   "flows": [
+    "F7"
+   ],
+   "why": "Adds user to followers. Writes state but no guard on ownership or duplicates.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 2,
+    "fan_in_files": 1,
+    "loc": 19,
+    "complexity": 0,
+    "tags": [],
+    "flow_reach": {
+     "F7": 0
+    },
+    "trivial": null,
+    "priority": 3.673
+   }
+  },
+  {
+   "id": "Sl3eh6",
+   "key": "src/app/routes/profile/profile.service.ts::unfollowUser",
+   "file": "src/app/routes/profile/profile.service.ts",
+   "name": "unfollowUser",
+   "qualified_name": "unfollowUser",
+   "kind": "function",
+   "start_line": 42,
+   "end_line": 60,
+   "score": 5,
+   "role": "persistence",
+   "flows": [
+    "F7"
+   ],
+   "why": "Removes user from followers. Writes state but no guard on ownership.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 2,
+    "fan_in_files": 1,
+    "loc": 19,
+    "complexity": 0,
+    "tags": [],
+    "flow_reach": {
+     "F7": 0
+    },
+    "trivial": null,
+    "priority": 3.673
+   }
+  },
+  {
+   "id": "Szh159",
+   "key": "src/app/routes/profile/profile.utils.ts::profileMapper",
+   "file": "src/app/routes/profile/profile.utils.ts",
+   "name": "profileMapper",
+   "qualified_name": "profileMapper",
+   "kind": "function",
+   "start_line": 4,
+   "end_line": 11,
+   "score": 5,
+   "role": "transformation",
+   "flows": [
+    "F7"
+   ],
+   "why": "Maps user to profile with following flag. Used on every profile response in F7.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 7,
+    "fan_in_files": 2,
+    "loc": 8,
+    "complexity": 0,
+    "tags": [],
+    "flow_reach": {
+     "F7": 0
+    },
+    "trivial": null,
+    "priority": 6.368
+   }
+  },
+  {
+   "id": "Syduve",
+   "key": "src/main.ts::<callback of app.use() @L27>",
+   "file": "src/main.ts",
+   "name": "<callback of app.use() @L27>",
+   "qualified_name": "<callback of app.use() @L27>",
+   "kind": "function",
+   "start_line": 27,
+   "end_line": 46,
+   "score": 5,
+   "role": "error_handling",
+   "flows": [
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7"
+   ],
+   "why": "Global error handler catches auth and domain errors. All flows depend on proper error response.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 20,
+    "complexity": 5,
+    "tags": [],
+    "flow_reach": {
+     "F1": 0,
+     "F2": 0,
+     "F3": 0,
+     "F4": 0,
+     "F5": 0,
+     "F6": 0,
+     "F7": 0
+    },
+    "trivial": null,
+    "priority": 3.369
+   },
+   "calibrated_from": 8,
+   "calibration_reason": "Generic error-to-response mapping; no state impact"
+  },
+  {
+   "id": "S7gsh5",
+   "key": "src/app/models/http-exception.model.ts::HttpException.constructor",
+   "file": "src/app/models/http-exception.model.ts",
+   "name": "constructor",
+   "qualified_name": "HttpException.constructor",
+   "kind": "constructor",
+   "start_line": 3,
+   "end_line": 9,
+   "score": 4,
+   "role": "validation",
+   "flows": [
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7"
+   ],
+   "why": "Every domain error thrown in critical flows uses this. Wrong error codes corrupt client error handling.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 10,
+    "fan_in_files": 3,
+    "loc": 7,
+    "complexity": 0,
+    "tags": [],
+    "flow_reach": {
+     "F1": 1,
+     "F2": 1,
+     "F4": 1,
+     "F5": 1,
+     "F6": 1,
+     "F7": 1,
+     "F9": 1
+    },
+    "trivial": null,
+    "priority": 7.746
+   },
+   "calibrated_from": 8,
+   "calibration_reason": "Trivial exception constructor; no decision logic"
+  },
+  {
+   "id": "Sdjs6g",
+   "key": "src/prisma/seed.ts::generateUser",
+   "file": "src/prisma/seed.ts",
+   "name": "generateUser",
+   "qualified_name": "generateUser",
+   "kind": "function",
+   "start_line": 16,
+   "end_line": 23,
+   "score": 4,
+   "role": "utility",
+   "flows": [
+    "F9"
+   ],
+   "why": "Generates demo user data. Helper for seed process; defect blocks demo data only.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 1,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 0,
+    "tags": [
+     "auth"
+    ],
+    "flow_reach": {
+     "F9": 0
+    },
+    "trivial": null,
+    "priority": 2.34
+   }
+  },
+  {
+   "id": "Sbxgtq",
+   "key": "src/prisma/seed.ts::generateArticle",
+   "file": "src/prisma/seed.ts",
+   "name": "generateArticle",
+   "qualified_name": "generateArticle",
+   "kind": "function",
+   "start_line": 25,
+   "end_line": 34,
+   "score": 4,
+   "role": "utility",
+   "flows": [
+    "F9"
+   ],
+   "why": "Generates demo article data. Helper for seed process; defect blocks demo data only.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 1,
+    "fan_in_files": 0,
+    "loc": 10,
+    "complexity": 0,
+    "tags": [],
+    "flow_reach": {
+     "F9": 0
+    },
+    "trivial": null,
+    "priority": 1.04
+   }
+  },
+  {
+   "id": "Stsowb",
+   "key": "src/prisma/seed.ts::generateComment",
+   "file": "src/prisma/seed.ts",
+   "name": "generateComment",
+   "qualified_name": "generateComment",
+   "kind": "function",
+   "start_line": 36,
+   "end_line": 37,
+   "score": 4,
+   "role": "utility",
+   "flows": [
+    "F9"
+   ],
+   "why": "Generates demo comment data. Helper for seed process; defect blocks demo data only.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 1,
+    "fan_in_files": 0,
+    "loc": 2,
+    "complexity": 0,
+    "tags": [],
+    "flow_reach": {
+     "F9": 0
+    },
+    "trivial": null,
+    "priority": 1.04
+   }
+  },
+  {
+   "id": "Sc6p2m",
+   "key": "src/prisma/seed.ts::main",
+   "file": "src/prisma/seed.ts",
+   "name": "main",
+   "qualified_name": "main",
+   "kind": "function",
+   "start_line": 39,
+   "end_line": 57,
+   "score": 4,
+   "role": "orchestration",
+   "flows": [
+    "F9"
+   ],
+   "why": "Orchestrates seeding of users, articles, comments. Defect prevents demo content setup only.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 1,
+    "fan_in_files": 0,
+    "loc": 19,
+    "complexity": 3,
+    "tags": [],
+    "flow_reach": {
+     "F9": 0
+    },
+    "trivial": null,
+    "priority": 1.456
+   }
+  },
+  {
+   "id": "S553kk",
+   "key": "src/app/routes/tag/tag.controller.ts::router.get('/tags')",
+   "file": "src/app/routes/tag/tag.controller.ts",
+   "name": "router.get('/tags')",
+   "qualified_name": "router.get('/tags')",
+   "kind": "function",
+   "start_line": 13,
+   "end_line": 20,
+   "score": 3,
+   "role": "entry",
+   "flows": [
+    "F8"
+   ],
+   "why": "Entry point for tag discovery. Delegates to getTags; low-impact feature in F8.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 8,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {
+     "F8": 0
+    },
+    "trivial": null,
+    "priority": 3.04
+   }
+  },
+  {
+   "id": "Smgfl6",
+   "key": "src/app/routes/tag/tag.service.ts::getTags",
+   "file": "src/app/routes/tag/tag.service.ts",
+   "name": "getTags",
+   "qualified_name": "getTags",
+   "kind": "function",
+   "start_line": 4,
+   "end_line": 38,
+   "score": 3,
+   "role": "accessor",
+   "flows": [
+    "F8"
+   ],
+   "why": "Queries tags by popularity. Read-only for sidebar discovery; defect degrades UX but not state.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 2,
+    "fan_in_files": 1,
+    "loc": 35,
+    "complexity": 1,
+    "tags": [
+     "db"
+    ],
+    "flow_reach": {
+     "F8": 0
+    },
+    "trivial": null,
+    "priority": 4.181
+   }
+  },
+  {
+   "id": "S0mdak",
+   "key": "src/main.ts::<callback of app.listen() @L55>",
+   "file": "src/main.ts",
+   "name": "<callback of app.listen() @L55>",
+   "qualified_name": "<callback of app.listen() @L55>",
+   "kind": "function",
+   "start_line": 55,
+   "end_line": 57,
+   "score": 2,
+   "role": "orchestration",
+   "flows": [
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F8"
+   ],
+   "why": "Server startup callback. All flows depend on app listening and running.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 3,
+    "complexity": 0,
+    "tags": [],
+    "flow_reach": {
+     "F1": 0,
+     "F2": 0,
+     "F3": 0,
+     "F4": 0,
+     "F5": 0,
+     "F6": 0,
+     "F7": 0,
+     "F8": 0
+    },
+    "trivial": null,
+    "priority": 2.832
+   },
+   "calibrated_from": 7,
+   "calibration_reason": "Startup log callback; trivial wiring"
+  },
+  {
+   "id": "Sret76",
+   "key": "src/main.ts::app.get('/')",
+   "file": "src/main.ts",
+   "name": "app.get('/')",
+   "qualified_name": "app.get('/')",
+   "kind": "function",
+   "start_line": 21,
+   "end_line": 23,
+   "score": 1,
+   "role": "utility",
+   "flows": [],
+   "why": "Health check endpoint. Trivial status response with no business logic.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": true,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 3,
+    "complexity": 0,
+    "tags": [],
+    "flow_reach": {},
+    "trivial": null,
+    "priority": 3.318
+   }
+  },
+  {
+   "id": "Sczpo4",
+   "key": "src/prisma/seed.ts::<callback of then() @L60>",
+   "file": "src/prisma/seed.ts",
+   "name": "<callback of then() @L60>",
+   "qualified_name": "<callback of then() @L60>",
+   "kind": "function",
+   "start_line": 60,
+   "end_line": 62,
+   "score": 1,
+   "role": "utility",
+   "flows": [],
+   "why": "Cleanup callback after seed success. Trivial Prisma disconnect.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 3,
+    "complexity": 0,
+    "tags": [],
+    "flow_reach": {},
+    "trivial": null,
+    "priority": 0.0
+   }
+  },
+  {
+   "id": "Sunn3j",
+   "key": "src/prisma/seed.ts::<callback of then() @L63>",
+   "file": "src/prisma/seed.ts",
+   "name": "<callback of then() @L63>",
+   "qualified_name": "<callback of then() @L63>",
+   "kind": "function",
+   "start_line": 63,
+   "end_line": 66,
+   "score": 1,
+   "role": "utility",
+   "flows": [],
+   "why": "Cleanup callback after seed error. Trivial error handling and exit.",
+   "confidence": "high",
+   "source": "llm",
+   "is_entry_point": false,
+   "is_crux": false,
+   "static": {
+    "fan_in": 0,
+    "fan_in_files": 0,
+    "loc": 4,
+    "complexity": 1,
+    "tags": [],
+    "flow_reach": {},
+    "trivial": null,
+    "priority": 0.208
+   }
+  }
+ ],
+ "score_distribution": {
+  "10": 2,
+  "9": 5,
+  "8": 5,
+  "7": 1,
+  "6": 14,
+  "5": 18,
+  "4": 5,
+  "3": 2,
+  "2": 1,
+  "1": 3
+ },
+ "skipped_files": {
+  "counts": {
+   "non-code": 24,
+   "build-config": 2,
+   "test": 10,
+   "generated": 1,
+   "migration": 4
+  },
+  "examples": {
+   "build-config": [
+    "e2e/jest.config.ts",
+    "jest.config.ts"
+   ],
+   "test": [
+    "e2e/src/server/server.spec.ts",
+    "e2e/src/support/global-setup.ts",
+    "e2e/src/support/global-teardown.ts",
+    "e2e/src/support/test-setup.ts",
+    "src/tests/prisma-mock.ts"
+   ],
+   "generated": [
+    "src/app/routes/auth/user-request.d.ts"
+   ],
+   "migration": [
+    "src/prisma/migrations/20210924225358_initial/migration.sql",
+    "src/prisma/migrations/20211001143221_implicit_tags/migration.sql",
+    "src/prisma/migrations/20211105153605_api_url/migration.sql",
+    "src/prisma/migrations/20211221184529_deprecated_preview/migration.sql"
+   ]
+  }
+ },
+ "notes": [
+  "Security: the JWT secret falls back to the hardcoded 'superSecret' in both auth.ts and token.utils.ts if the env var is missing.",
+  "Prisma client singleton (src/prisma/prisma-client.ts) and router mounting (routes.ts) are top-level code with no S-id, but every flow depends on them.",
+  "updateUser does not check email or username uniqueness, so a duplicate surfaces as a Prisma 500.",
+  "updateArticle clears tags, then updates, with no transaction. Favorite and follow on an unknown target return 500, not 404.",
+  "E21 is a mis-attributed bodyParser line that points at the GET / handler. It duplicates E20/E22.",
+  "Seed main swallows errors, so a failed seed can still exit with code 0.",
+  "The JWT secret falls back to the hardcoded 'superSecret'. If JWT_SECRET is not set in production, anyone can forge a token.",
+  "updateUser does not check that the new email or username is unique, so it relies on DB constraints for integrity.",
+  "updateArticle clears the tags and then updates the article outside a transaction. A partial failure leaves the article with no tags.",
+  "addComment does not check that the article exists, and deleteComment ignores the slug. Comment integrity relies on the DB.",
+  "buildFindAllQuery encodes the rule that decides which articles are visible. It stays at 8, but a regression there leaks hidden content."
+ ],
+ "run": {
+  "backend": "claude-cli",
+  "batch": false,
+  "models": {
+   "map": "claude-opus-5-5",
+   "trace": "claude-sonnet-5-5",
+   "score": "claude-haiku-4-5-20251001",
+   "calibrate": "claude-opus-5-5"
+  },
+  "phases": {
+   "score": {
+    "calls": 2,
+    "cached": 0,
+    "failed": 0,
+    "input_tokens": 13,
+    "output_tokens": 9191,
+    "cache_read_tokens": 20133,
+    "cache_write_tokens": 26539,
+    "cost_usd": 0.1184
+   },
+   "calibrate": {
+    "calls": 1,
+    "cached": 0,
+    "failed": 0,
+    "input_tokens": 2,
+    "output_tokens": 2307,
+    "cache_read_tokens": 799,
+    "cache_write_tokens": 9119,
+    "cost_usd": 0.125
+   }
+  },
+  "total_cost_usd": 0.2433,
+  "seconds": 91.9,
+  "scan_seconds": 0.14,
+  "tree_sitter": true,
+  "warnings": []
+ }
+}
